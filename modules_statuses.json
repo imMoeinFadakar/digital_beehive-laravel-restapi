@@ -1,0 +1,22 @@
+{
+    "Auth": false,
+    "User": true,
+    "Shered": true,
+    "Shared": true,
+    "Activity": true,
+    "Reward": true,
+    "Beehive": true,
+    "Category": true,
+    "Product": true,
+    "UserProduct": true,
+    "Refferal": true,
+    "ProductCode": true,
+    "ProductUser": true,
+    "OrderUser": true,
+    "Sellers": true,
+    "SellerProduct": true,
+    "Guests": true,
+    "OTP": false,
+    "TelephoneSeller": true,
+    "Task": true
+}

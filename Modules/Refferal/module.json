@@ -1,0 +1,11 @@
+{
+    "name": "Refferal",
+    "alias": "refferal",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Refferal\\Providers\\RefferalServiceProvider"
+    ],
+    "files": []
+}

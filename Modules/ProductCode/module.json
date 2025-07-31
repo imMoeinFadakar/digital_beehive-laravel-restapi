@@ -1,0 +1,11 @@
+{
+    "name": "ProductCode",
+    "alias": "productcode",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ProductCode\\Providers\\ProductCodeServiceProvider"
+    ],
+    "files": []
+}

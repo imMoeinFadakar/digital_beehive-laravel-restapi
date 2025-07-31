@@ -1,0 +1,11 @@
+{
+    "name": "Beehive",
+    "alias": "beehive",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Beehive\\Providers\\BeehiveServiceProvider"
+    ],
+    "files": []
+}

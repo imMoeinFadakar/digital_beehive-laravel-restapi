@@ -1,0 +1,11 @@
+{
+    "name": "OrderUser",
+    "alias": "orderuser",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\OrderUser\\Providers\\OrderUserServiceProvider"
+    ],
+    "files": []
+}

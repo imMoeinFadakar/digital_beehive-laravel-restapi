@@ -1,0 +1,28 @@
+{
+    "name": "nwidart/auth",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Auth\\Providers\\RouteServiceProvider"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+             "App\\": "app/",
+        "Modules\\": "Modules/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Auth\\Tests\\": "Tests/"
+        }
+    }
+}

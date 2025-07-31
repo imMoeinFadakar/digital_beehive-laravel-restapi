@@ -1,0 +1,11 @@
+{
+    "name": "ProductUser",
+    "alias": "productuser",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ProductUser\\Providers\\ProductUserServiceProvider"
+    ],
+    "files": []
+}

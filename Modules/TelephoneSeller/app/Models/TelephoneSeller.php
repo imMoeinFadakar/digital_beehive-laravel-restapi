@@ -1,0 +1,44 @@
+<?php
+
+namespace Modules\TelephoneSeller\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+// use Modules\TelephoneSeller\Database\Factories\TelephoneSellerFactory;
+
+class TelephoneSeller extends Model
+{
+    use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     */
+    protected $fillable = [
+          "first_name",
+        "last_name",
+        "national_code",
+        "issue_place",
+        "birth_date",
+        "married_status",
+        "address",
+        "emergency_phone",
+        "any_teammate_family",
+        "extera_activity",
+        "health_status",
+        "punishment_history",
+        "username",
+        "password",
+        "score",
+        "educational_background",
+        'field_of_study',
+        'institution_name',
+        'Position',
+        "field_of_activity",
+        "image"
+    ];
+
+   public function addNewTelephoneSeller(array $validated): ?TelephoneSeller
+   {
+        return $this->query()->create($validated);
+   }
+}

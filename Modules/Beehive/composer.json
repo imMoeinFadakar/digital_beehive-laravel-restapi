@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/beehive",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Beehive\\": "app/",
+            "Modules\\Beehive\\Database\\Factories\\": "database/factories/",
+            "Modules\\Beehive\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Beehive\\Tests\\": "tests/"
+        }
+    }
+}

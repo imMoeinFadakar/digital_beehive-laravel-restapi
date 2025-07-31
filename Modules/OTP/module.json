@@ -1,0 +1,11 @@
+{
+    "name": "OTP",
+    "alias": "otp",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\OTP\\Providers\\OTPServiceProvider"
+    ],
+    "files": []
+}

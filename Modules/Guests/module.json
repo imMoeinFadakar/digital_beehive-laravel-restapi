@@ -1,0 +1,11 @@
+{
+    "name": "Guests",
+    "alias": "guests",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Guests\\Providers\\GuestsServiceProvider"
+    ],
+    "files": []
+}
