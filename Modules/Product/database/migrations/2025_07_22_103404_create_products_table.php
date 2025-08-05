@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('banner_image');
             $table->unsignedBigInteger('price');
             $table->unsignedBigInteger('last_price');
+            $table->unsignedInteger("score");
             $table->enum("unite",['kilogram','quentity']);
             $table->longText('description');
             $table->timestamps();

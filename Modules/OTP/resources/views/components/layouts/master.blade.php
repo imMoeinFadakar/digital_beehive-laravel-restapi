@@ -7,7 +7,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-        <title>OTP Module - {{ config('app.name', 'Laravel') }}</title>
+        <title>Otp Module - {{ config('app.name', 'Laravel') }}</title>
 
         <meta name="description" content="{{ $description ?? '' }}">
         <meta name="keywords" content="{{ $keywords ?? '' }}">

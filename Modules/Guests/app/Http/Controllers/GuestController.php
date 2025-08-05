@@ -4,7 +4,7 @@ namespace Modules\Guests\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Modules\Guests\Models\Guest;
-use Modules\Guests\Http\Requests\addNewGuestRequest;
+use Modules\Guests\Http\Requests\AddNewGuestRequest;
 use Modules\Guests\Models\GuestCard;
 use Modules\Guests\Transformers\GuestResource;
 use Modules\Shared\Http\Controllers\SharedController;
@@ -27,7 +27,7 @@ class GuestController extends SharedController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(addNewGuestRequest $request,Guest $guest)
+    public function store(AddNewGuestRequest $request,Guest $guest)
     {
         $validated = $request->validated();
         $guestCode = $this->getGuestCode($validated['code']);
@@ -42,10 +42,7 @@ class GuestController extends SharedController
 
 
         return $this->api(new GuestResource($guest->toArray()),__METHOD__);
-
-        // $guest->addNewGuest($);
-
-        // return 
+        
     }
 
     protected function updateGuestCode(GuestCard $guestCard)

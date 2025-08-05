@@ -22,8 +22,9 @@ return new class extends Migration
             $table->unsignedBigInteger("power")->default(1);
             $table->unsignedBigInteger("bee_quentity")->default(1);
             $table->unsignedBigInteger("frame_quentity")->default(1);
-            $table->unsignedBigInteger("refferal_code")->unique();
             $table->unsignedBigInteger("honey_amount")->default(0);
+            $table->enum("status",['active','inactive'])
+            ->default('active');
             $table->timestamps();
         });
     }

@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\OTP\Database\Seeders;
+namespace Modules\Otp\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class OTPDatabaseSeeder extends Seeder
+class OtpDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.

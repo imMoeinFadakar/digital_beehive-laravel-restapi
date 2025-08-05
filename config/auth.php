@@ -1,5 +1,7 @@
 <?php
 
+use Modules\User\Models\User;
+
 return [
 
     /*
@@ -38,8 +40,16 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'seller',
         ],
+
+        "api" => [
+            "driver" => 'token',
+            'provider' => 'users', 
+            'hash' => false,
+        ]
+
+
     ],
 
     /*
@@ -60,15 +70,15 @@ return [
     */
 
     'providers' => [
+         'seller' => [
+        'driver' => 'eloquent',
+        'model' => Modules\TelephoneSeller\Models\TelephoneSeller::class,
+    ],
+
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', \Modules\User\Models\User::class),
+            'table' => User::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
     /*

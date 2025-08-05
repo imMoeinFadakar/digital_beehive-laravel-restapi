@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\OTP\Models;
+namespace Modules\Otp\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Modules\OTP\Database\Factories\OtpFactory;
+// use Modules\Otp\Database\Factories\OtpFactory;
 
 class Otp extends Model
 {
@@ -14,16 +14,23 @@ class Otp extends Model
      * The attributes that are mass assignable.
      */
     protected $fillable = [
-        "code",
-        "phone",
+        "phone_number",
+        "otp_code",
         "expires_at"
     ];
 
-    public function addNewOtp(array $validated)
+
+    protected $hidden = [
+        "phone_number"
+    ];
+
+
+    public function addNewOtpCode(array $validated): ?Otp
     {
         return $this->query()->create($validated);
     }
 
+  
 
     // protected static function newFactory(): OtpFactory
     // {

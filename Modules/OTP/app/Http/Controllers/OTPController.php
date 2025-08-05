@@ -1,35 +1,39 @@
 <?php
 
-namespace Modules\OTP\Http\Controllers;
+namespace Modules\Otp\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Modules\OTP\Http\Requests\OTPRequest;
-use Modules\OTP\Models\OTP;
-use Modules\OTP\Traits\KavehnegarSmsTrait;
-use Modules\Shared\Http\Controllers\SharedController;
+use Exception;
+use Modules\Otp\Models\Otp;
+use Modules\Otp\Services\VerifiOtpServices;
+use Modules\Otp\Transformers\OtpResource;
 use Modules\User\Models\User;
+use Kavenegar\KavenegarApi;
+use Modules\Otp\Http\Requests\SendOtpRequest;
+use Modules\Otp\Http\Requests\VerifiOtpRequest;
+use Modules\Otp\Services\SendOtpServices;
+use Modules\Shared\Http\Controllers\SharedController;
 
-class OTPController extends SharedController
+class OtpController extends SharedController
 {
-    use KavehnegarSmsTrait;
-    public function sendOtp(OTPRequest $request,OTP $otp)
-    {
-        $code = $this->generateOtpCode();
 
-        $otp = $otp->addNewOtp($request->validated());
-        
-        $response =   $this->sendOtpCode($otp->phone, $code);
+   protected $sendOtpService;
+   protected $verifiOtpService;
 
-        return $this->api(null,__METHOD__,$response);
+   public function __construct(SendOtpServices $sendOtpServices,VerifiOtpServices $verifiOtpServices)
+   {
+      $this->sendOtpService = $sendOtpServices;
+      $this->verifiOtpService = $verifiOtpServices;
+   }
 
+   public function sendOtp(SendOtpRequest $requset, Otp $otp)
+   {
+      return  $this->sendOtpService->sendOtp($requset,$otp);
+   }
 
-    }
-
-    protected function generateOtpCode(): ?int
-    {
-        return rand(100000,900000);
-    }
+   public function verifiOtp(VerifiOtpRequest $request)
+   {
+      return $this->verifiOtpService->verifiOtp($request);
+   }
 
 
 }

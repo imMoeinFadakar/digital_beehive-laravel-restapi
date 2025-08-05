@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\OTP\Providers;
+namespace Modules\Otp\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 

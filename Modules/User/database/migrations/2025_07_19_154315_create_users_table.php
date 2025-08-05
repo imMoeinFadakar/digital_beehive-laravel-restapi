@@ -21,12 +21,21 @@ return new class extends Migration
             $table->unsignedBigInteger("postal_code")->nullable();
             $table->string("image")->nullable();
             $table->string('password');
+            $table->string("refferal_code",10);
             $table->timestamp('phone_verified_at')->nullable();
             $table->enum('status',['active',"inactive"])->default('active');
             $table->enum('role',['customer','admin'])->default('customer');
             $table->unsignedInteger('score')->default(0);
             $table->timestamps();
         });
+
+
+        Schema::create('password_resets', function (Blueprint $table) {
+        $table->string('email')->index();
+        $table->string('token');
+        $table->timestamp('created_at')->nullable();
+    });
+
     }
 
     /**
@@ -35,5 +44,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
+        Schema::dropIfExists('password_resets');
+
     }
 };

@@ -32,7 +32,7 @@ export default defineConfig({
 //            const filePath = join(currentPath, file);
 //            const stats = statSync(filePath);
 //            if (stats.isFile() && !file.startsWith('.')) {
-//                const relativePath = 'Modules/OTP/'+relative(__dirname, filePath);
+//                const relativePath = 'Modules/Otp/'+relative(__dirname, filePath);
 //                filePaths.push(relativePath);
 //            } else if (stats.isDirectory()) {
 //                walkDirectory(filePath);
@@ -52,6 +52,6 @@ export default defineConfig({
 
 
 //export const paths = [
-//    'Modules/OTP/resources/assets/sass/app.scss',
-//    'Modules/OTP/resources/assets/js/app.js',
+//    'Modules/Otp/resources/assets/sass/app.scss',
+//    'Modules/Otp/resources/assets/js/app.js',
 //];

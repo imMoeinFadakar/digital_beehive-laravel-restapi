@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\OTP\Providers;
+namespace Modules\Otp\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
@@ -8,11 +8,11 @@ use Nwidart\Modules\Traits\PathNamespace;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
-class OTPServiceProvider extends ServiceProvider
+class OtpServiceProvider extends ServiceProvider
 {
     use PathNamespace;
 
-    protected string $name = 'OTP';
+    protected string $name = 'Otp';
 
     protected string $nameLower = 'otp';
 

@@ -19,18 +19,13 @@ class TelephoneSellerController extends SharedController
      */
     public function store(StoreNewTelephoneSeller $request,TelephoneSeller $telephoneSeller)
     {
-      $image = $this->uploadMedia($request, "persenel", "image");
 
-if (!$image) {
-    return response()->json([
-        'error' => 'آپلود تصویر انجام نشد. لطفاً بررسی کنید که فایل ارسال شده باشد.'
-    ], 422);
-}
+        $image = $this->uploadMedia($request, "persenel", "image");
 
-$validated = $request->validated();
-$validated['image'] = $image;
+        $validated = $request->validated();
+        $validated['image'] = $image;
 
-$telephoneSeller = $telephoneSeller->addNewTelephoneSeller($validated);
+        $telephoneSeller = $telephoneSeller->addNewTelephoneSeller($validated);
 
         return $this->api(new TelephoneSellerResource($telephoneSeller->toArray()),__METHOD__);
     }

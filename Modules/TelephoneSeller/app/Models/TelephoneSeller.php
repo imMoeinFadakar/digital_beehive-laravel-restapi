@@ -4,11 +4,15 @@ namespace Modules\TelephoneSeller\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Modules\Auth\App\Models\SellerUser;
+
 // use Modules\TelephoneSeller\Database\Factories\TelephoneSellerFactory;
 
-class TelephoneSeller extends Model
+class TelephoneSeller extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory,Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -36,6 +40,13 @@ class TelephoneSeller extends Model
         "field_of_activity",
         "image"
     ];
+
+    public function Seller_user()
+    {
+        return $this->hasMany(SellerUser::class);
+    }
+
+
 
    public function addNewTelephoneSeller(array $validated): ?TelephoneSeller
    {

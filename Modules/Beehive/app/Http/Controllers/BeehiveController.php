@@ -41,11 +41,11 @@ class BeehiveController extends SharedController
     {
 
         if(! $this->hasUserProduct())
-            return $this->api(null,__METHOD__,"for make a beehive,buy product first");
+            return $this->api(null,__METHOD__,"با خرید محصول کندوی شما به صورت دیجیتال فعال خواهد شد");
 
 
         if($this->hasUserBeehive())
-            return $this->api(null,__METHOD__,"you already have one beehive");
+            return $this->api(null,__METHOD__,"شما در حال حاضر یک کندوی فعال دارید");
 
 
         $referralCode = $this->generateReferralCode();

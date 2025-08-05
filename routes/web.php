@@ -1,15 +1,20 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use Modules\TelephoneSeller\Models\TelephoneSeller;
+use Modules\OrderUser\Http\Controllers\OrderUserController;
 
-Route::get('/dfgbreg384yhes0rg8bw0rgb0ewrgbeiuhfbveirg', function () {
-
-   $users =  TelephoneSeller::all();
-
-
-    return view('welcome',compact('users'));
+Route::get('/svndfbdfbpworgvjker0gjeggvodhvfdh', function () {
+    return view('welcome');
 });
-Route::get('/', function () {
-    return "kooohaie";
+
+Route::get('/dashboard',[ProfileController::class,"index"])->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get("/userproduct/{id}",
+    [OrderUserController::class,"getOrderUserByUserId"])
+    ->name("user.product.get");
+
 });
+
+require __DIR__.'/auth.php';

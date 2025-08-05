@@ -13,14 +13,23 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "first_name" => "nullable|string|max:80",
-            "last_name" => "nullable|string|max:80",
-            "email" => ["nullable","email","unique:users,email"],
-            "phone_number" => ['nullable', 'regex:/^09[0-9]{9}$/',"max:11"],
-            "address" => ["nullable","max:250"],
-            // "image" => ["nullable","image",],
+            "address" => ["required","max:250"],
+          "postal_code" => ["required", "regex:/^[0-9]{10}$/"]
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'address.required' => 'وارد کردن آدرس الزامی است.',
+            'address.max' => 'آدرس نباید بیشتر از ۲۵۰ کاراکتر باشد.',
+
+            'postal_code.required' => 'وارد کردن کد پستی الزامی است.',
+    'postal_code.regex' => 'کد پستی باید دقیقا ۱۰ رقم عددی و بدون فاصله یا حروف باشد.',
+        ];
+    }
+
+
 
     /**
      * Determine if the user is authorized to make this request.

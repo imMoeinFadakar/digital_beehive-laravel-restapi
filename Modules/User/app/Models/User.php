@@ -9,6 +9,8 @@ use Modules\Activity\Models\Activity;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Modules\UserProduct\Models\UserProduct;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Auth\App\Models\SellerUser;
+use Modules\OrderUser\Models\OrderUser;
 use Modules\Sellers\Models\Seller;
 
 // use Modules\User\Database\Factories\UserFactory;
@@ -24,16 +26,18 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        "last_name",
         'email',
         'password',
         'username',
-        'email',
         'phone_number',
         'address',
         'image',
         'status',
-        'role'
+        'role',
+        'refferal_code',
+        'postal_code'
     ];
 
     /**
@@ -42,7 +46,6 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $hidden = [
-        "id",
         'password',
         'remember_token',
         'created_at',
@@ -50,6 +53,12 @@ class User extends Authenticatable
         "role",
         "status"
     ];
+
+
+    public function seller_user()
+    {
+        return $this->hasMany(SellerUser::class);
+    }
 
 
     public function getNonNullAttributes()
@@ -78,6 +87,11 @@ class User extends Authenticatable
         return $this->hasOne(Seller::class);
     }
 
+
+    public function order_user()
+    {
+        return $this->hasMany(OrderUser::class);
+    }
 
     public function activity()
     {

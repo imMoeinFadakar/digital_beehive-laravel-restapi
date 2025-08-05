@@ -3,6 +3,7 @@
 namespace Modules\TelephoneSeller\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Modules\TelephoneSeller\Database\Seeders\TelephoneSellerSeeder;
 
 class TelephoneSellerDatabaseSeeder extends Seeder
 {
@@ -11,6 +12,6 @@ class TelephoneSellerDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $this->call([]);
+        TelephoneSellerSeeder::class;
     }
 }

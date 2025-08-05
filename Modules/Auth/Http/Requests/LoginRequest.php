@@ -17,7 +17,16 @@ class LoginRequest extends FormRequest
         ];
     }
 
- 
+    public function messages()
+    {
+        return [
+            'email.required' => 'وارد کردن ایمیل الزامی است.',
+            'email.email' => 'فرمت ایمیل وارد شده معتبر نیست.',
+            'email.exists' => 'کاربری با این ایمیل یافت نشد.',
+            'password.required' => 'رمز عبور الزامی است.',
+            'password.min' => 'رمز عبور باید حداقل ۸ کاراکتر باشد.',
+        ];
+    }
 
 
     /**

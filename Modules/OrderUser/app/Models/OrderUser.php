@@ -2,6 +2,7 @@
 
 namespace Modules\OrderUser\Models;
 
+use Modules\User\Models\User;
 use Modules\Product\Models\Product;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,8 +23,14 @@ class OrderUser extends Model
 
 
     protected $hidden = [
-        "user_id"
+        
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 
     public function product()
     {

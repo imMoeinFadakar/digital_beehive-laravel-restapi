@@ -2,9 +2,15 @@
 
 namespace Modules\Refferal\Http\Controllers;
 
-use Modules\Refferal\Transformers\RefferalResource;
+use Exception;
+use Modules\User\Models\User;
+use Modules\Refferal\Models\Card;
+use Illuminate\Support\Facades\DB;
 use Modules\Beehive\Models\Beehive;
+use Illuminate\Support\Facades\Auth;
+use Modules\Refferal\Models\CardUser;
 use Modules\Refferal\Models\Refferal;
+use Modules\Refferal\Transformers\RefferalResource;
 use Modules\Shared\Http\Controllers\SharedController;
 use Modules\Refferal\Http\Requests\storeNewRefferalRequest;
 
@@ -20,7 +26,20 @@ class RefferalController extends SharedController
         ->where("reffering_id", auth()->user()->id)
         ->count();
 
-        return $this->api(['refferal_quentity' => $RefferalQuentity],__METHOD__);
+
+        $cardUser = $this->getAuthUserCard();
+
+        return $this->api(['refferal_quentity' => $RefferalQuentity ,
+         "cart" => $cardUser ?? "هنوز هیچ کارت فعالی ندارید" ],__METHOD__);
+    }
+
+
+    protected function getAuthUserCard(): ?CardUser
+    {
+        return CardUser::query()
+        ->where("user_id",Auth::id())
+        ->with(['card'])
+        ->first();
     }
 
 
@@ -30,40 +49,142 @@ class RefferalController extends SharedController
      * @param \Modules\Refferal\Models\Refferal $refferal
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(storeNewRefferalRequest $request,Refferal $refferal) {
+    public function store(StoreNewRefferalRequest $request,Refferal $refferal) {
+
+
+        $isRefferalExists = $this->isUserRefferedBefore();
+        if($isRefferalExists)
+                return $this->api(null,
+            __METHOD__,
+            "قبلا معرف شما ثبت شده",
+            false,
+            422);
 
         $validated = $request->validated();
 
-        $refferingUser = $this->findUserByRefferalCode($validated['refferal_code'])->user;
+        $refferingUser = $this->findRefferingUser(
+            $validated['refferal_code']);
+
+        if($refferingUser->id === Auth::id())
+            return $this->api(null,
+        __METHOD__,
+        "کد معرف اشتباه است",
+        false,
+        422);    
+
+
+    try{
+        DB::beginTransaction();
+
         
-        if(! $refferingUser || $this->findUserBeehive()->refferal_code == $request->refferal_code)
-                return $this->api(null,__METHOD__,"کاربر پیدا نشد");
+       $data =  [
+        "reffered_id" => Auth::id(),
+        "reffering_id" => $refferingUser->id
+       ];
+       
 
-       $data =  $this->setAttrebuitForStore(['reffered_id','reffering_id'],
-        [auth()->user()->id,$refferingUser->id]);
+        $refferal->addNewRefferal($data);
 
-       $refferal  =  $refferal->addNewRefferal($data);
 
-        return $this->api(new RefferalResource($refferal->toArray()),__METHOD__);
+       $cardUser = $this->getCardUser($refferingUser);
+
+       if(! $cardUser){
+
+        $cardUser = $this->createCardUser($refferingUser);
+
+        DB::commit();
+
+         return $this->api(null,
+        __METHOD__,
+        "دعوت موفقیت امیز بود");
+
+       }
+
+       $newCard = $this->getNewCardLevel($cardUser->card->refferal_require);
+
+       if(! $newCard){
+
+        DB::commit();
+         return $this->api(null,
+        __METHOD__,
+        "تبریک شما به اخرین سطح رسیدید");
+
+       }
+
+
+       $refferingUser->score += $newCard->score;
+       $refferingUser->save();
+
+       $cardUser->card_id = $newCard->id;
+        $cardUser->save();
+
+
+        DB::commit();
+
+
+        return $this->api(null,
+        __METHOD__,
+        "دعوت موفقیت امیز بود");
+
+
+    }catch(Exception $e){
+
+        DB::rollBack();
+
+        return $this->api(null,
+        __METHOD__,
+        "خطای ناشناخته ایی رخ داد" . ' ' .$e->getMessage());
+
     }
 
-    public function findUserBeehive(): Beehive|null
+
+
+        
+
+
+    }
+
+
+    protected function getCardUser($refferingUser): ?CardUser
     {
-        return Beehive::query()
-        ->where("user_id",auth()->user()->id)
+        return CardUser::query()
+        ->where("user_id",$refferingUser->id)
+        ->with(['card'])
         ->first();
     }
 
-    protected function setAttrebuitForStore(array $keys,array $values): array 
+   
+    public function getNewCardLevel(int $cardRefferalQuentity): ?Card
     {
-        return  array_combine($keys,$values);
+        return Card::query()
+        ->where("refferal_require",$cardRefferalQuentity + 1)
+        ->first();
     }
 
-    protected function findUserByRefferalCode(int $refferalCode): ?Beehive
+
+    public function createCardUser($refferingUser): ?CardUser
     {
-        return Beehive::query()
+        return CardUser::query()
+        ->create([
+            "user_id" => $refferingUser->id ,
+            "card_id" => 1
+        ])->load(['card']);
+    }
+
+
+  
+    protected function isUserRefferedBefore(): ?bool
+    {
+        return Refferal::query()
+        ->where("reffered_id",Auth::id())
+        ->exists();
+    }
+
+    protected function findRefferingUser(string $refferalCode): ?User
+    {
+        return User::query()
         ->where("refferal_code", $refferalCode)
-        ->with(['user:id'])
+        ->where("status","active")
         ->first() ?? null;
     }
 

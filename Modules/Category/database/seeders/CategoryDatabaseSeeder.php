@@ -3,6 +3,7 @@
 namespace Modules\Category\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Modules\Category\Models\Category;
 
 class CategoryDatabaseSeeder extends Seeder
 {
@@ -11,6 +12,10 @@ class CategoryDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $this->call([]);
+        Category::query()
+        ->create([
+            "title" => "عسل",
+            "description" => "توضیحات عسل"
+        ]);
     }
 }

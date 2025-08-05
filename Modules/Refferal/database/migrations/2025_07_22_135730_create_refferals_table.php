@@ -21,11 +21,10 @@ return new class extends Migration
 
             
             $table->foreignId('reffering_id')
-            ->unique()
             ->constrained("users")
             ->onDelete('cascade'); 
             
-          
+          $table->boolean("has_user_reward")->default(false);
 
             $table->timestamps();
         });

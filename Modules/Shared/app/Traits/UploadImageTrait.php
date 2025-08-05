@@ -6,8 +6,9 @@ use Illuminate\Support\Facades\Log;
 
 trait UploadImageTrait
 {
-    const CDN_URL = 'https://app.honeykoohpayeh.ir/upload/';
-    const ABSOLUTE_UPLOAD_PATH = '/home/honeykoo/app/upload/';
+const ABSOLUTE_UPLOAD_PATH = 'D:/Copy/koohpaie_IT/digital_beehive/public/upload';
+const CDN_URL = 'http://127.0.0.1:8000/upload/';
+
 
     public function uploadMedia($request, $dirName, $index = 'image', $oldPath = null)
     {
@@ -16,23 +17,21 @@ trait UploadImageTrait
             Log::warning("No file found in request under key '$index'");
             return null;
         }
-
+        
         $file = $request->file($index);
-
-        // بررسی اعتبار فایل
-        if (!$file->isValid()) {
-            Log::error("Uploaded file is not valid.");
-            return null;
-        }
-
+        
+        
+        
+        
         $fileName = $this->generateFileName($file);
         $uploadPath = self::ABSOLUTE_UPLOAD_PATH . $dirName;
-
+        
         // بررسی وجود پوشه مقصد
         if (!file_exists($uploadPath)) {
             Log::error("Upload path does not exist: $uploadPath. Create it manually with correct permissions.");
             return null;
         }
+        dd("file nist");
 
         // حذف فایل قبلی در صورت وجود
         $this->deleteOldFileIfExists($oldPath);
@@ -66,5 +65,4 @@ trait UploadImageTrait
         }
     }
 }
-
 

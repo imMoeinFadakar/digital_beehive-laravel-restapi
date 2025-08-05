@@ -17,14 +17,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Modules\\OTP\\": "app/",
-            "Modules\\OTP\\Database\\Factories\\": "database/factories/",
-            "Modules\\OTP\\Database\\Seeders\\": "database/seeders/"
+            "Modules\\Otp\\": "app/",
+            "Modules\\Otp\\Database\\Factories\\": "database/factories/",
+            "Modules\\Otp\\Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Modules\\OTP\\Tests\\": "tests/"
+            "Modules\\Otp\\Tests\\": "tests/"
         }
     }
 }

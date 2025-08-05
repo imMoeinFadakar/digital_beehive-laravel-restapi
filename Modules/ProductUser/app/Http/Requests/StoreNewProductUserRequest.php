@@ -17,6 +17,19 @@ class storeNewProductUserRequest extends FormRequest
         ];
     }
 
+    public function messages()
+    {
+        return [
+        'code.required' => 'وارد کردن کد الزامی است.',
+        'code.integer' => 'کد باید یک عدد معتبر باشد.',
+
+        'product_id.required' => 'انتخاب محصول الزامی است.',
+        'product_id.integer' => 'شناسه محصول باید به صورت عددی وارد شود.',
+        'product_id.exists' => 'محصول انتخاب‌شده در سیستم وجود ندارد یا حذف شده است.',
+        ];
+    }
+
+
     /**
      * Determine if the user is authorized to make this request.
      */

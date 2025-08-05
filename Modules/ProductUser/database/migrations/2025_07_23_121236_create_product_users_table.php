@@ -23,11 +23,11 @@ return new class extends Migration
             ->cascadeOnDelete()
             ->cascadeOnUpdate();
 
-             $table->foreignId("product_code_id")
-             ->unique()
-            ->constrained("product_codes")
-            ->cascadeOnDelete()
-            ->cascadeOnUpdate();
+            //  $table->foreignId("product_code_id")
+            //  ->unique()
+            // ->constrained("product_codes")
+            // ->cascadeOnDelete()
+            // ->cascadeOnUpdate();
 
             $table->timestamps();
         });

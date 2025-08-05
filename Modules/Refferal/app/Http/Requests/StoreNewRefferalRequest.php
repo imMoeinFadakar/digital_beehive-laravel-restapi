@@ -4,7 +4,7 @@ namespace Modules\Refferal\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class storeNewRefferalRequest extends FormRequest
+class StoreNewRefferalRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -12,9 +12,19 @@ class storeNewRefferalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "refferal_code" => "required|integer|exists:beehives,refferal_code",
+            "refferal_code" => "required|exists:users,refferal_code",
         ];
     }
+
+
+    public function messages()
+    {
+        return [
+            'refferal_code.required' => 'وارد کردن کد معرف الزامی است.',
+            'refferal_code.exists' => 'کد معرف وارد شده نامعتبر است یا وجود ندارد.',
+        ];
+    }
+
 
     /**
      * Determine if the user is authorized to make this request.

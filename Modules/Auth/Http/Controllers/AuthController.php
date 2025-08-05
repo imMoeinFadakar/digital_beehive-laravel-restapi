@@ -2,17 +2,18 @@
 
 namespace Modules\Auth\Http\Controllers;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Modules\User\Models\User;
 use Illuminate\Http\JsonResponse;
 use Laravel\Sanctum\HasApiTokens;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Modules\Auth\Transformers\AuthResource;
+use Modules\Auth\App\Models\SellerUser;
 use Modules\Shared\Traits\ApiResponseTrait;
 use Modules\Auth\Http\Requests\LoginRequest;
 use Modules\Auth\Http\Requests\RegisterRequest;
-
+use Modules\TelephoneSeller\Models\TelephoneSeller;
 
 class AuthController extends Controller
 {   
@@ -24,28 +25,33 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $Request) {
 
+            $validated = $Request->validated();
         
-        
-        if(! $this->attemptLogin($Request)) 
+        if(! $this->attemptLogin($validated)) 
             return $this->api(null,
-        __METHOD__,"username or password is wrong",false);
+        __METHOD__,"اطلاعات نادرست است",false,code: 422);
         
-        $user = $this->getUser($Request); 
-        
-        
+        $user = auth()->user();
         if(! $user){
             return $this->api(null,
-            __METHOD__,"user is not found",false); 
+            __METHOD__,"کاربر پیدا نشد",false,422); 
         }
         
         $token = $this->craeteAccessToken($user);
         
         $user = $this->removeNullIndexes($user->toArray());
         
-        return $this->api(['user'=> $user , 'token'=> $token],__METHOD__,"login succesful welcome!");
+        return $this->api(['user'=> $user , 'token'=> $token],
+        __METHOD__,
+        "با موفقیت وارد شدید");
 
     }
 
+    /**
+     * Summary of removeNullIndexes
+     * @param array $array
+     * @return array
+     */
     public function removeNullIndexes(array $array): array
     {
         return array_filter($array, function($value) {
@@ -53,41 +59,13 @@ class AuthController extends Controller
         });
     }
 
-
-
-
-    /**
-     * @param int $productCode
-     * @return ?User
-     */
-    public function getUser($request): ?User
-    {
-        return User::query()
-        ->where("username", $request->username)
-        ->where('status','active')
-        ->first() ?? null;
-    }
-
-
     /**
      * @param mixed $request
      * @return bool
      */
-    public function attemptLogin($request): ?bool
+    public function attemptLogin($validated): ?bool
     {
-       return  Auth::attempt($request->only(["username","password"]));
-    }
-
-
-    /**
-     * @param int $productCode
-     * @return User|null
-     */
-    public function findUserByProductCode(int $productCode): User|null
-    {
-        return User::query()
-        ->where("product_code", $productCode)
-        ->first() ?? null;
+       return  Auth::attempt($validated);
     }
 
  
@@ -109,11 +87,13 @@ class AuthController extends Controller
        $logout =  auth()->user()->currentAccessToken()->delete();
        if($logout) {
 
-        return $this->api(null,__METHOD__,"you logged out");
+        return $this->api(null,__METHOD__,"با موفقیت خارج شدید");
 
        }
        
-        return $this->api(null,message: "Unknown error occurred!", status: false, code: 500);
+        return $this->api(null,
+        message: " ارور ناشناخته ایی اتفاق افتاد",
+         status: false, code: 500);
     }
 
     /**
@@ -123,11 +103,62 @@ class AuthController extends Controller
      */
     public function register(RegisterRequest $request,User $user): ?JsonResponse
     {
-        $user =  $user->addNewUser($request->validated());
+        $validated = $request->validated();
 
+        $validated['refferal_code'] = $this->generateRefferalCode();
+        
+        $user =  $user->addNewUser($validated);
+
+        if(isset($request->seller_code)){
+
+            $seller = $this->getSellerByPersonelCode($request->seller_code);
+        }
+        
+        if($seller && $seller != null){
+            (new SellerUser())->AddNewSellerUser([
+                "telephone_seller_id" => $seller->id,
+                "user_id" => $user->id
+            ]);
+        }
+            
         $token = $this->craeteAccessToken($user);
 
         return $this->api(["user"=>$user,"token"=>$token],__METHOD__);
     }
+
+
+    public function getSellerByPersonelCode(int $personelCode): TelephoneSeller|null
+    {
+        return TelephoneSeller::query()
+        ->where("personel_code",$personelCode)
+        ->where("status","active")
+        ->first() ?? null;
+    }
+
+
+
+    public function generateRefferalCode(): ?string
+    {
+        $refferalCode =  Str::random(10);
+
+        while($this->isRefferalCodeExists($refferalCode)){
+
+            $refferalCode =  Str::random(10);
+
+        }
+
+        return $refferalCode;
+
+    }
+
+
+    protected function isRefferalCodeExists(string $refferalCode): ?bool
+    {
+        return User::query()
+        ->where("refferal_code",$refferalCode)
+        ->exists();
+    }
+
+
 
 }

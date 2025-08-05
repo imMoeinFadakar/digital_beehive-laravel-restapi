@@ -28,6 +28,8 @@ class ProductUserController extends SharedController
 
   
 
+
+
     /**
      * Store a newly created resource in storage.
      */

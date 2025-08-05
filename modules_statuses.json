@@ -1,5 +1,5 @@
 {
-    "Auth": false,
+    "Auth": true,
     "User": true,
     "Shered": true,
     "Shared": true,
@@ -18,5 +18,6 @@
     "Guests": true,
     "OTP": false,
     "TelephoneSeller": true,
-    "Task": true
+    "Task": true,
+    "Otp": true
 }

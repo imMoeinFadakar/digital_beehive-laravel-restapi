@@ -34,14 +34,15 @@ class ProductController extends SharedController
      * @param \Modules\Product\Models\Product $product
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Product $product,$slug)
+    public function show(Product $product)
     {
-
-        dd($slug);
-
         $product->load(['category:id,title,description']);
         return $this->api(new ProductResource($product->toArray()),__METHOD__);
 
     }
+
+   
+
+
 
 }
