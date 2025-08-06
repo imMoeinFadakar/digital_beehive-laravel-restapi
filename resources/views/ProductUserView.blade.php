@@ -29,21 +29,20 @@
             </tr>
         </thead>
         <tbody>
-    @forelse ($orders as $order)
-        <tr>
-            <td>{{ $order->id }}</td>
-            <td>{{ $order->product->name }}</td>
-            <td>{{ $order->quentity }}</td>
-            <td>{{ $order->quentity * $order->product->price }}</td>
-            <td>{{ $order->status == "in_proccess" ? "در انتظار تایید سفارش" : "کامل شده" }}</td>
-        </tr>
-    @empty
-        <tr>
-            <td colspan="5" class="text-center">سفارشی یافت نشد.</td>
-        </tr>
-    @endforelse
-</tbody>
-
+            @foreach ($orders as  $order)
+                
+            <tr>
+                <td>{{ $order->id  }}</td>
+                <td>{{ $order->product->name }}</td>
+                <td>{{ $order->quentity }}</td>
+                @endforeach
+                <td>{{ $order->quentity * $order->product->price }}</td>
+                <td>{{ $order->status == "in_proccess" ? "در انتظار تایید سفارش" : "کامل شده" }}</td>
+           
+            </tr>
+          
+            <!-- ردیف‌های بیشتر -->
+        </tbody>
     </table>
 
         @endif

@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Modules\Reward\Models\Reward;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Modules\Reward\Models\RewardUser;
 use Modules\Reward\Http\Requests\RewardUserRequest;
 use Modules\Reward\Transformers\RewardUserResource;
@@ -24,7 +25,7 @@ class RewardUserController extends SharedController
         ->orderby("id")
         ->when(isset($request->id), fn($query)=> $query->where("id", $request->id))
         ->when(isset($request->id), fn($query)=> $query->where("id", "%" . $request->id . "%"))
-        ->where("id",auth()->id())
+        ->where("user_id",Auth::id())
         ->with(['reward:id,title'])
         ->get();
 

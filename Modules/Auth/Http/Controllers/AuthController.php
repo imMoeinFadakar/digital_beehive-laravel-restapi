@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 use Modules\User\Models\User;
 use Illuminate\Http\JsonResponse;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Auth\Models\SellerUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Modules\Auth\App\Models\SellerUser;
+use Illuminate\Support\Facades\Hash;
 use Modules\Shared\Traits\ApiResponseTrait;
 use Modules\Auth\Http\Requests\LoginRequest;
 use Modules\Auth\Http\Requests\RegisterRequest;
@@ -20,25 +21,25 @@ class AuthController extends Controller
    use HasApiTokens,ApiResponseTrait; 
     // use ApiResponseTrait;
 
-       /**
+    /**
      * @param \Modules\Auth\Http\Requests\LoginRequest $Request
+     * @return JsonResponse
      */
     public function login(LoginRequest $Request) {
 
             $validated = $Request->validated();
         
-        if(! $this->attemptLogin($validated)) 
-            return $this->api(null,
-        __METHOD__,"اطلاعات نادرست است",false,code: 422);
-        
-        $user = auth()->user();
-        if(! $user){
-            return $this->api(null,
-            __METHOD__,"کاربر پیدا نشد",false,422); 
-        }
-        
+        $user  = $this->getUserByEmail($validated['email']);
+
+        if(! $user || ! $this->checkPassword($user->password,$validated['password']))
+            return $this->api(null,__METHOD__,
+            "کاربری یا این مشخصات در سیستم وجود ندارد",
+            false,401);
+
+        $this->loginVerifiedUser($user);
+
         $token = $this->craeteAccessToken($user);
-        
+
         $user = $this->removeNullIndexes($user->toArray());
         
         return $this->api(['user'=> $user , 'token'=> $token],
@@ -46,6 +47,34 @@ class AuthController extends Controller
         "با موفقیت وارد شدید");
 
     }
+
+    protected function loginVerifiedUser(User $user)
+    {
+        return Auth::login($user);
+    }
+
+    /**
+     * find user with its 
+     * @param string $userEmail
+     * @return User|null
+     */
+    protected function getUserByEmail(string $userEmail): User|null
+    {
+        return User::query()
+        ->where("email",$userEmail)
+        ->where("status","active")
+        ->first();
+    }
+
+    protected function checkPassword(string $userPassword,string $requestPassword)
+    {
+        if(! Hash::check($requestPassword,$userPassword))
+            return false;
+
+        return true;
+    }
+
+
 
     /**
      * Summary of removeNullIndexes
@@ -59,14 +88,7 @@ class AuthController extends Controller
         });
     }
 
-    /**
-     * @param mixed $request
-     * @return bool
-     */
-    public function attemptLogin($validated): ?bool
-    {
-       return  Auth::attempt($validated);
-    }
+ 
 
  
     /**

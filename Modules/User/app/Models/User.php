@@ -2,16 +2,16 @@
 
 namespace Modules\User\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\Activity\Models\Activity;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Modules\UserProduct\Models\UserProduct;
 use Laravel\Sanctum\HasApiTokens;
-use Modules\Auth\App\Models\SellerUser;
-use Modules\OrderUser\Models\OrderUser;
 use Modules\Sellers\Models\Seller;
+use Modules\Auth\Models\SellerUser;
+use Modules\Activity\Models\Activity;
+use Illuminate\Database\Eloquent\Model;
+use Modules\OrderUser\Models\OrderUser;
+use Illuminate\Notifications\Notifiable;
+use Modules\UserProduct\Models\UserProduct;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 // use Modules\User\Database\Factories\UserFactory;
 
@@ -47,6 +47,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        "id",
         'remember_token',
         'created_at',
         'updated_at',

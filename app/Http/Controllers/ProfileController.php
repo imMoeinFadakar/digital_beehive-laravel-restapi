@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use Modules\Auth\Models\SellerUser;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
-use Modules\Auth\App\Models\SellerUser;
+use Modules\Shared\Http\Controllers\SharedController;
 
-class ProfileController extends Controller
+class ProfileController extends SharedController
 {
     public function index()
     {

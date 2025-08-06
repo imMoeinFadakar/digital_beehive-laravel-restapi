@@ -36,7 +36,6 @@
         <tbody>
             @foreach ($sellerUser as $index => $user)
                 
-            @endforeach
             <tr>
                 <td>{{ $index +1}}</td>
                 <td>{{ $user->user->first_name }}</td>
@@ -47,7 +46,8 @@
                     <a  class="btn btn-success" href="{{ route("user.product.get",$user->user->id) }}">وضعیت خریدها</a>
                 </td>
             </tr>
-          
+            
+            @endforeach
             <!-- ردیف‌های بیشتر -->
         </tbody>
     </table>

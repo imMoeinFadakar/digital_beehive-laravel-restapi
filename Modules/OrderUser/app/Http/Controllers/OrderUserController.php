@@ -49,7 +49,7 @@ class OrderUserController extends SharedController
      */
     public function store( StoreNewOrderUserRequest $request , OrderUser $orderUser) {
 
-        if(! Auth::user()->phone_number || ! Auth::user()->postal_code)
+        if(! Auth::user()->address || ! Auth::user()->postal_code)
             return $this->api(null,
         __METHOD__,
         "لطفا قبل از ثبت سفارش اطلاعات خود را تکمیل کنید",

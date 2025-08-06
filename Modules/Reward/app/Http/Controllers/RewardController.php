@@ -19,6 +19,7 @@ class RewardController extends SharedController
     {
         $rewards = Reward::query()
         ->orderBy("id")
+        ->where("status","active")
         ->when(isset($request->id), fn($query)=> $query->where("id",$request->id))
         ->when(isset($request->title), fn($query)=> $query->where("title","%" . $request->title . "%"))
         ->get();

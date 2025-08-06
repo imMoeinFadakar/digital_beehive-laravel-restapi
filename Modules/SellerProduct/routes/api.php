@@ -1,8 +1,0 @@
-<?php
-
-use Illuminate\Support\Facades\Route;
-use Modules\SellerProduct\Http\Controllers\SellerProductController;
-
-Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
-    Route::apiResource('sellerproducts', SellerProductController::class)->names('sellerproduct');
-});

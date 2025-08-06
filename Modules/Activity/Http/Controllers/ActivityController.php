@@ -18,6 +18,7 @@ class ActivityController extends SharedController
     public function index(Request $request)
     {
         $activity = Activity::query()
+        ->where("status","active")
         ->when(isset($request->id), fn($query)=> $query->where("id",$request->id))
         ->when(isset($request->score), fn($query)=> $query->where("id",$request->score))
         ->when(isset($request->title), fn($query)=> $query->where("title","%". $request->title. "%")) 
