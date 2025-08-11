@@ -12,6 +12,9 @@ use Modules\Reward\Http\Requests\RewardUserRequest;
 use Modules\Reward\Transformers\RewardUserResource;
 use Modules\Shared\Http\Controllers\SharedController;
 
+/**
+ * reward that users have been taken by there spent there scores
+ */
 class RewardUserController extends SharedController
 {
     /**
@@ -31,7 +34,6 @@ class RewardUserController extends SharedController
 
         return $this->api(RewardUserResource::collection($rewardUser),
         __METHOD__);
-
     }
 
     /**
@@ -56,7 +58,7 @@ class RewardUserController extends SharedController
 
             if(! $userScore)
                 return $this->api(null,__METHOD__,
-            "you dont have enough score");
+            "you dont have enough score",false,400);
             
             auth()->user()->decrement("score", $reward->cost);
 

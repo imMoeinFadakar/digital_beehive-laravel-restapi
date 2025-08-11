@@ -133,7 +133,8 @@ class RefferalController extends SharedController
 
         return $this->api(null,
         __METHOD__,
-        "خطای ناشناخته ایی رخ داد" . ' ' .$e->getMessage());
+        "خطای ناشناخته ایی رخ داد" . ' ' .$e->getMessage(),
+        false,500);
 
     }
 

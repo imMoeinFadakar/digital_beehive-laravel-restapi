@@ -13,11 +13,9 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "email" => "required|email|unique:users,email",
             'password' => 'required|min:8|confirmed',
-            "first_name" => 'required|string|min:3|max:80|regex:/^[\p{Arabic} ]+$/u',
-            "last_name" => 'required|string|min:3|max:80|regex:/^[\p{Arabic} ]+$/u',
-            "phone_number" => 'required|regex:/^09\d{9}$/|unique:users,phone_number' ,
+            "phone_number" => "required|regex:/^09\d{9}$/|unique:users,phone_number",
+            "email" => 'required|email|unique:users,email' ,
             "seller_code" => "nullable|max:10|exists:telephone_sellers,personel_code"
         ];
         
@@ -52,7 +50,7 @@ class RegisterRequest extends FormRequest
             'phone_number.regex' => 'شماره موبایل باید با 09 شروع شده و ۱۱ رقم باشد.',
             'phone_number.unique' => 'این شماره موبایل قبلاً ثبت شده است.',
 
-            'seller_code.min'    => 'کد فروشنده باید حداقل 10 رقم باشد.',
+            'seller_code.min'    => 'کد فروشنده باید حداکثر 10 رقم باشد.',
             'seller_code.exists' => 'کد فروشنده وارد شده معتبر نیست یا وجود ندارد.',
         ];
     }

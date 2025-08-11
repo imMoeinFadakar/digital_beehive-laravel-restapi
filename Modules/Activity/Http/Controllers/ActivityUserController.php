@@ -43,7 +43,8 @@ class ActivityUserController extends SharedController
     {
 
         if($this->isUserActivityExists($request->activity_id))
-            return $this->api(null,__METHOD__,"you done this activity before");
+            return $this->api(null,__METHOD__,
+        "you done this activity before",false,400);
 
         $validated = $request->validated();
        
@@ -72,12 +73,17 @@ class ActivityUserController extends SharedController
             Db::rollBack();
 
               return $this->api(null,
-            __METHOD__,"Unknown error occurred!" . $e->getMessage());
+            __METHOD__,
+            "Unknown error occurred!" . $e->getMessage(),false,400);
 
         }
     }
 
-    public function isUserActivityExists(int $activityId ): ?bool
+    /**
+     * @param int $activityId
+     * @return bool
+     */
+    protected function isUserActivityExists(int $activityId ): ?bool
     {
         return ActivityUser::query()
         ->where("user_id",auth()->user()->id)
@@ -85,8 +91,11 @@ class ActivityUserController extends SharedController
         ->exists();
     }
 
-
-    protected function getRewardById(int $rewardId)
+    /**
+     * @param int $rewardId
+     * @return Activity|null
+     */
+    protected function getRewardById(int $rewardId): Activity|null
     {
         return  Activity::find($rewardId);
     }

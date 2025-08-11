@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('مشاهده لیست خرید های کاربر') }}
         </h2>
     </x-slot>
 
@@ -35,11 +35,11 @@
                 <td>{{ $order->id  }}</td>
                 <td>{{ $order->product->name }}</td>
                 <td>{{ $order->quentity }}</td>
-                @endforeach
                 <td>{{ $order->quentity * $order->product->price }}</td>
                 <td>{{ $order->status == "in_proccess" ? "در انتظار تایید سفارش" : "کامل شده" }}</td>
-           
+                
             </tr>
+            @endforeach
           
             <!-- ردیف‌های بیشتر -->
         </tbody>

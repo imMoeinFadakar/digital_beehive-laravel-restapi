@@ -2,9 +2,11 @@
 
 namespace Modules\User\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Sellers\Models\Seller;
 use Modules\Auth\Models\SellerUser;
+use Nwidart\Modules\Facades\Module;
 use Modules\Activity\Models\Activity;
 use Illuminate\Database\Eloquent\Model;
 use Modules\OrderUser\Models\OrderUser;
@@ -12,10 +14,11 @@ use Illuminate\Notifications\Notifiable;
 use Modules\UserProduct\Models\UserProduct;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Modules\Auth\app\Notifications\ResetPasswordNotification;
 
 // use Modules\User\Database\Factories\UserFactory;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable,HasApiTokens;
@@ -47,7 +50,6 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        "id",
         'remember_token',
         'created_at',
         'updated_at',
@@ -68,6 +70,17 @@ class User extends Authenticatable
             return !is_null($value);
         });
     }
+
+    /**
+     * Summary of sendPasswordResetNotification
+     * @param mixed $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
+
 
 
     /**

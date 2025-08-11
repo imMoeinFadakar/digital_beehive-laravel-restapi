@@ -27,7 +27,10 @@ class OrderUserController extends SharedController
         return $this->api(OrderUserResource::collection($orderUser),__METHOD__);
     }
 
-
+    /**
+     * @param int $userId
+     * @return \Illuminate\Contracts\View\View
+     */
     public function getOrderUserByUserId(int $userId)
     {
         $orders =  OrderUser::query()
@@ -45,18 +48,14 @@ class OrderUserController extends SharedController
 
 
     /**
-     * Store a newly created resource in storage.
+     * order-user/store
+     * @param \Modules\OrderUser\Http\Requests\StoreNewOrderUserRequest $request
+     * @param \Modules\OrderUser\Models\OrderUser $orderUser
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store( StoreNewOrderUserRequest $request , OrderUser $orderUser) {
 
-        if(! Auth::user()->address || ! Auth::user()->postal_code)
-            return $this->api(null,
-        __METHOD__,
-        "لطفا قبل از ثبت سفارش اطلاعات خود را تکمیل کنید",
-        false,
-        400);
-
-
+    
         $validated = $request->validated();
 
         $validated['user_id'] = auth()->user()->id;
@@ -70,16 +69,7 @@ class OrderUserController extends SharedController
 
     }
 
-    public function update(UpdateOrderUserRequest $request , OrderUser $orderUser)
-     {
-        // dd($orderUser->toArray() , $request->toArray());
-
-        $orderUser->updateOrderUser($request->all());
-
-        dd($orderUser->all());
-        // return $this->api()
-
-     }
+ 
 
   
 }

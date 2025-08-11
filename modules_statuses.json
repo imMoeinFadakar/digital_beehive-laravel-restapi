@@ -19,5 +19,6 @@
     "OTP": false,
     "TelephoneSeller": true,
     "Task": true,
-    "Otp": true
+    "Otp": true,
+    "Persenel": true
 }

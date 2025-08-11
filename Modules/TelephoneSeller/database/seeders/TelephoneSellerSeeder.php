@@ -18,8 +18,8 @@ class TelephoneSellerSeeder extends Seeder
             "last_name" => "hassan",
             "image" => "image",
             "emergency_phone" => "09394082449",
-            "personel_code" => 123456,
-            "password" => Hash::make("fadakar"),
+            "personel_code" => "a100",
+            "password" => Hash::make("Koohpayeh@koohpayeh"),
         ]);
     }
 }

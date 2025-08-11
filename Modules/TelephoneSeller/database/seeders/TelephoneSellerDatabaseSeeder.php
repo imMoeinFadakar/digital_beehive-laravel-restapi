@@ -12,6 +12,6 @@ class TelephoneSellerDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        TelephoneSellerSeeder::class;
+        $this->call(TelephoneSellerSeeder::class);
     }
 }

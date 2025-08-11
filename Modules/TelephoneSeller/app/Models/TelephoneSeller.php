@@ -2,11 +2,11 @@
 
 namespace Modules\TelephoneSeller\Models;
 
+use Modules\Auth\Models\SellerUser;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Modules\Auth\App\Models\SellerUser;
 
 // use Modules\TelephoneSeller\Database\Factories\TelephoneSellerFactory;
 

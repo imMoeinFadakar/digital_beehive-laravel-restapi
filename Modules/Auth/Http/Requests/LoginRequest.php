@@ -21,8 +21,9 @@ class LoginRequest extends FormRequest
     {
         return [
             'email.required' => 'وارد کردن ایمیل الزامی است.',
-            'email.email' => 'فرمت ایمیل وارد شده معتبر نیست.',
-            'email.exists' => 'کاربری با این ایمیل یافت نشد.',
+            'email.exists' => 'کاربری   یافت نشد.',
+            'email.email' => 'فرمت ایمیل صحیح نیست.',
+
             'password.required' => 'رمز عبور الزامی است.',
             'password.min' => 'رمز عبور باید حداقل ۸ کاراکتر باشد.',
         ];

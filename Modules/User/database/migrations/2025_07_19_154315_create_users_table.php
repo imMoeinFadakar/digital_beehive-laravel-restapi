@@ -23,9 +23,10 @@ return new class extends Migration
             $table->string('password');
             $table->string("refferal_code",10);
             $table->timestamp('phone_verified_at')->nullable();
-            $table->enum('status',['active',"inactive"])->default('active');
+            $table->enum('status',['active',"inactive"])->default('inactive');
             $table->enum('role',['customer','admin'])->default('customer');
             $table->unsignedInteger('score')->default(0);
+            $table->dateTime("email_verified_at")->nullable();
             $table->timestamps();
         });
 

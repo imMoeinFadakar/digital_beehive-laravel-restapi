@@ -4,179 +4,6 @@ endpoints:
   -
     httpMethods:
       - GET
-    uri: api/health
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: ''
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 200
-        content: '{"status":"ok"}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - POST
-    uri: api/v1/auth/login
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: ''
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      email:
-        name: email
-        description: 'Must be a valid email address. The <code>email</code> of an existing record in the users table.'
-        required: true
-        example: gbailey@example.net
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-      password:
-        name: password
-        description: 'Must be at least 8 characters.'
-        required: true
-        example: '+-0pBNvYgxwmi/#iw'
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-    cleanBodyParameters:
-      email: gbailey@example.net
-      password: '+-0pBNvYgxwmi/#iw'
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - POST
-    uri: api/v1/auth/register
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: ''
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      email:
-        name: email
-        description: 'Must be at least 4 characters.'
-        required: true
-        example: gbailey@example.net
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-      password:
-        name: password
-        description: 'Must be at least 8 characters.'
-        required: true
-        example: '+-0pBNvYgxwmi/#iw'
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-    cleanBodyParameters:
-      email: gbailey@example.net
-      password: '+-0pBNvYgxwmi/#iw'
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - POST
-    uri: api/v1/auth/logout
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: auth/logout
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
     uri: api/v1/activity_user
     metadata:
       groupName: Endpoints
@@ -257,7 +84,7 @@ endpoints:
   -
     httpMethods:
       - GET
-    uri: api/activity
+    uri: api/v1/activity
     metadata:
       groupName: Endpoints
       groupDescription: ''
@@ -280,7 +107,7 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"message":"Activity index successful","status":true,"code":200,"data":[]}'
+        content: '{"message":"Activity index successful","status":true,"code":200,"data":[{"id":1,"title":"fdvdf","description":"dfvdf","image":"dfvd","status":"active","reward":222,"created_at":null,"updated_at":null}]}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -296,7 +123,7 @@ endpoints:
   -
     httpMethods:
       - GET
-    uri: 'api/activity/{id}'
+    uri: 'api/v1/activity/{id}'
     metadata:
       groupName: Endpoints
       groupDescription: ''
@@ -314,14 +141,14 @@ endpoints:
         name: id
         description: 'The ID of the activity.'
         required: true
-        example: 16
+        example: 1
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanUrlParameters:
-      id: 16
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -329,17 +156,219 @@ endpoints:
     fileParameters: []
     responses:
       -
-        status: 404
-        content: |-
-          {
-              "message": "No query results for model [Modules\\Activity\\Models\\Activity] 16"
-          }
+        status: 200
+        content: '{"message":"Activity show successful","status":true,"code":200,"data":{"id":1,"title":"fdvdf","description":"dfvdf","image":"dfvd","status":"active","reward":222,"created_at":null,"updated_at":null}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
           access-control-allow-origin: '*'
         description: null
         custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/auth/login
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      phone_number:
+        name: phone_number
+        description: 'Must be a valid email address. The <code>phone_number</code> of an existing record in the users table.'
+        required: true
+        example: gbailey@example.net
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      password:
+        name: password
+        description: 'Must be at least 8 characters.'
+        required: true
+        example: '+-0pBNvYgxwmi/#iw'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      phone_number: gbailey@example.net
+      password: '+-0pBNvYgxwmi/#iw'
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/auth/register
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      password:
+        name: password
+        description: 'Must be at least 8 characters.'
+        required: true
+        example: '|]|{+-'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      phone_number:
+        name: phone_number
+        description: 'Must match the regex /^09\d{9}$/.'
+        required: true
+        example: '09564255931'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      seller_code:
+        name: seller_code
+        description: 'The <code>personel_code</code> of an existing record in the telephone_sellers table. Must not be greater than 10 characters.'
+        required: false
+        example: ikhway
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+    cleanBodyParameters:
+      password: '|]|{+-'
+      phone_number: '09564255931'
+      seller_code: ikhway
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/auth/forget-password
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/auth/reset-password
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/auth/logout
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: auth/logout
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
     responseFields: []
     auth: []
     controller: null
@@ -379,36 +408,6 @@ endpoints:
           access-control-allow-origin: '*'
         description: null
         custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - POST
-    uri: api/v1/beehive
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: beehive/index
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses: []
     responseFields: []
     auth: []
     controller: null
@@ -440,8 +439,8 @@ endpoints:
     fileParameters: []
     responses:
       -
-        status: 401
-        content: '{"message":"Unauthenticated."}'
+        status: 200
+        content: '{"message":"Category index successful","status":true,"code":200,"data":[{"title":"\u0641\u0626\u0627\u0644","description":"\u0644\u0627\u0626\u0627\u062a\u0626"}]}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -475,14 +474,14 @@ endpoints:
         name: id
         description: 'The ID of the category.'
         required: true
-        example: 16
+        example: 1
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanUrlParameters:
-      id: 16
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -490,127 +489,14 @@ endpoints:
     fileParameters: []
     responses:
       -
-        status: 401
-        content: '{"message":"Unauthenticated."}'
+        status: 200
+        content: '{"message":"Category show successful","status":true,"code":200,"data":{"id":1,"title":"\u0641\u0626\u0627\u0644","description":"\u0644\u0627\u0626\u0627\u062a\u0626","product":[{"id":1,"category_id":1,"name":"\u0626\u062e\u062b\u062f","slug":"\u0628\u0631\u06cc\u0628","image":"\u06cc\u0628\u0631\u06cc\u0628\u0631","banner_image":"\u06cc\u0628\u0631\u06cc\u0628\u0631","price":3333,"last_price":4444,"score":23,"unite":"kilogram","description":"\u0628\u0631\u06cc\u0628\u0631\u06cc"}]}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
           access-control-allow-origin: '*'
         description: null
         custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: api/v1/guests
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Display a listing of the resource.'
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 401
-        content: '{"message":"Unauthenticated."}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - POST
-    uri: api/v1/guests
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Store a newly created resource in storage.'
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      first_name:
-        name: first_name
-        description: 'Must be at least 3 characters. Must not be greater than 80 characters.'
-        required: true
-        example: b
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-      last_name:
-        name: last_name
-        description: 'Must be at least 3 characters. Must not be greater than 80 characters.'
-        required: true
-        example: 'n'
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-      phone:
-        name: phone
-        description: 'Must match the regex /^09\d{9}$/.'
-        required: true
-        example: '09564255931'
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-      code:
-        name: code
-        description: 'The <code>code</code> of an existing record in the guest_cards table.'
-        required: true
-        example: 16
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-    cleanBodyParameters:
-      first_name: b
-      last_name: 'n'
-      phone: '09564255931'
-      code: 16
-    fileParameters: []
-    responses: []
     responseFields: []
     auth: []
     controller: null
@@ -665,7 +551,7 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Store a newly created resource in storage.'
+      title: order-user/store
       description: ''
       authenticated: false
       custom: []
@@ -710,9 +596,8 @@ endpoints:
     custom: []
   -
     httpMethods:
-      - PUT
-      - PATCH
-    uri: 'api/v1/orderusers/{orderuser}'
+      - POST
+    uri: api/v1/send_otp
     metadata:
       groupName: Endpoints
       groupDescription: ''
@@ -725,221 +610,25 @@ endpoints:
     headers:
       Content-Type: application/json
       Accept: application/json
-    urlParameters:
-      orderuser:
-        name: orderuser
-        description: 'The orderuser.'
-        required: true
-        example: architecto
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-    cleanUrlParameters:
-      orderuser: architecto
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      status:
-        name: status
-        description: ''
-        required: true
-        example: in_proccess
-        type: string
-        enumValues:
-          - in_proccess
-          - canceled
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-    cleanBodyParameters:
-      status: in_proccess
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: api/v1/product-index
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: product/index
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
     urlParameters: []
     cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 401
-        content: '{"message":"Unauthenticated."}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'api/v1/product/{slug}'
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: product/show
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      slug:
-        name: slug
-        description: 'The slug of the product.'
-        required: true
-        example: architecto
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-    cleanUrlParameters:
-      slug: architecto
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 401
-        content: '{"message":"Unauthenticated."}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - PUT
-      - PATCH
-    uri: 'api/v1/productcodes/{productcode}'
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Product Code / update'
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      productcode:
-        name: productcode
-        description: 'The productcode.'
-        required: true
-        example: architecto
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-    cleanUrlParameters:
-      productcode: architecto
-    queryParameters: []
-    cleanQueryParameters: []
     bodyParameters:
-      status:
-        name: status
-        description: ''
+      phone_number:
+        name: phone_number
+        description: 'Must match the regex /^09\d{9}$/. The <code>phone_number</code> of an existing record in the users table.'
         required: true
-        example: used
+        example: '09564255931'
         type: string
-        enumValues:
-          - used
-          - not_used
+        enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanBodyParameters:
-      status: used
+      phone_number: '09564255931'
     fileParameters: []
     responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: api/v1/productusers
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Display a listing of the resource.'
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 401
-        content: '{"message":"Unauthenticated."}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
-        custom: []
     responseFields: []
     auth: []
     controller: null
@@ -949,13 +638,13 @@ endpoints:
   -
     httpMethods:
       - POST
-    uri: api/v1/productusers
+    uri: api/v1/verifi_otp
     metadata:
       groupName: Endpoints
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Store a newly created resource in storage.'
+      title: ''
       description: ''
       authenticated: false
       custom: []
@@ -977,21 +666,110 @@ endpoints:
         exampleWasSpecified: false
         nullable: false
         custom: []
-      product_id:
-        name: product_id
-        description: 'The <code>id</code> of an existing record in the products table.'
+      phone_number:
+        name: phone_number
+        description: 'Must match the regex /^09\d{9}$/.'
         required: true
-        example: 16
-        type: integer
+        example: '09564255931'
+        type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanBodyParameters:
       code: 16
-      product_id: 16
+      phone_number: '09564255931'
     fileParameters: []
     responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/v1/product
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: product/index
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"message":"Product index successful","status":true,"code":200,"data":[{"id":1,"category_id":1,"name":"\u0626\u062e\u062b\u062f","slug":"\u0628\u0631\u06cc\u0628","image":"\u06cc\u0628\u0631\u06cc\u0628\u0631","banner_image":"\u06cc\u0628\u0631\u06cc\u0628\u0631","price":3333,"last_price":4444,"score":23,"unite":"kilogram","description":"\u0628\u0631\u06cc\u0628\u0631\u06cc","category":{"id":1,"title":"\u0641\u0626\u0627\u0644","description":"\u0644\u0627\u0626\u0627\u062a\u0626"}}]}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/v1/product/{id}'
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: product/show
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the product.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"message":"Product show successful","status":true,"code":200,"data":{"id":1,"category_id":1,"name":"\u0626\u062e\u062b\u062f","slug":"\u0628\u0631\u06cc\u0628","image":"\u06cc\u0628\u0631\u06cc\u0628\u0631","banner_image":"\u06cc\u0628\u0631\u06cc\u0628\u0631","price":3333,"last_price":4444,"score":23,"unite":"kilogram","description":"\u0628\u0631\u06cc\u0628\u0631\u06cc","category":{"id":1,"title":"\u0641\u0626\u0627\u0644","description":"\u0644\u0627\u0626\u0627\u062a\u0626"}}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+        custom: []
     responseFields: []
     auth: []
     controller: null
@@ -1060,107 +838,18 @@ endpoints:
     bodyParameters:
       refferal_code:
         name: refferal_code
-        description: 'The <code>refferal_code</code> of an existing record in the beehives table.'
+        description: 'The <code>refferal_code</code> of an existing record in the users table.'
         required: true
-        example: 16
-        type: integer
+        example: architecto
+        type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanBodyParameters:
-      refferal_code: 16
+      refferal_code: architecto
     fileParameters: []
     responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: api/v1/rewards
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: reward/controller
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 401
-        content: '{"message":"Unauthenticated."}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'api/v1/rewards/{reward_id}'
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: reward/show
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      reward_id:
-        name: reward_id
-        description: 'The ID of the reward.'
-        required: true
-        example: 16
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-    cleanUrlParameters:
-      reward_id: 16
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 401
-        content: '{"message":"Unauthenticated."}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
-        custom: []
     responseFields: []
     auth: []
     controller: null
@@ -1250,13 +939,13 @@ endpoints:
   -
     httpMethods:
       - GET
-    uri: api/v1/sellerproducts
+    uri: api/rewards
     metadata:
       groupName: Endpoints
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Display a listing of the resource.'
+      title: reward/controller
       description: ''
       authenticated: false
       custom: []
@@ -1272,8 +961,8 @@ endpoints:
     fileParameters: []
     responses:
       -
-        status: 401
-        content: '{"message":"Unauthenticated."}'
+        status: 200
+        content: '{"message":"Reward index successful","status":true,"code":200,"data":[{"id":1,"title":"meoiej","description":"svgb","image":"fgbgf","status":"active","cost":200}]}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -1288,50 +977,48 @@ endpoints:
     custom: []
   -
     httpMethods:
-      - POST
-    uri: api/v1/sellerproducts
+      - GET
+    uri: 'api/rewards/{reward_id}'
     metadata:
       groupName: Endpoints
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Store a newly created resource in storage.'
+      title: reward/show
       description: ''
       authenticated: false
       custom: []
     headers:
       Content-Type: application/json
       Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      seller_code:
-        name: seller_code
-        description: 'The <code>seller_code</code> of an existing record in the sellers table.'
+    urlParameters:
+      reward_id:
+        name: reward_id
+        description: 'The ID of the reward.'
         required: true
-        example: architecto
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-      product_code:
-        name: product_code
-        description: 'The <code>code</code> of an existing record in the product_codes table.'
-        required: true
-        example: 16
+        example: 1
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
-    cleanBodyParameters:
-      seller_code: architecto
-      product_code: 16
+    cleanUrlParameters:
+      reward_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
     fileParameters: []
-    responses: []
+    responses:
+      -
+        status: 200
+        content: '{"message":"Reward show successful","status":true,"code":200,"data":{"id":1,"title":"meoiej","description":"svgb","image":"fgbgf","status":"active","cost":200}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+        custom: []
     responseFields: []
     auth: []
     controller: null
@@ -1421,7 +1108,7 @@ endpoints:
       authenticated: false
       custom: []
     headers:
-      Content-Type: application/json
+      Content-Type: multipart/form-data
       Accept: application/json
     urlParameters: []
     cleanUrlParameters: []
@@ -1451,12 +1138,12 @@ endpoints:
       father_name:
         name: father_name
         description: 'Must be at least 3 characters. Must not be greater than 80 characters.'
-        required: true
+        required: false
         example: g
         type: string
         enumValues: []
         exampleWasSpecified: false
-        nullable: false
+        nullable: true
         custom: []
       national_code:
         name: national_code
@@ -1471,44 +1158,44 @@ endpoints:
       issue_place:
         name: issue_place
         description: 'Must be at least 3 characters. Must not be greater than 80 characters.'
-        required: true
+        required: false
         example: 'n'
         type: string
         enumValues: []
         exampleWasSpecified: false
-        nullable: false
+        nullable: true
         custom: []
       birth_date:
         name: birth_date
         description: 'Must be a valid date. Must be a valid date in the format <code>Y-m-d</code>. Must be a date before <code>today</code>.'
-        required: true
-        example: '2021-08-22'
+        required: false
+        example: '2021-08-31'
         type: string
         enumValues: []
         exampleWasSpecified: false
-        nullable: false
+        nullable: true
         custom: []
       married_status:
         name: married_status
         description: ''
-        required: true
-        example: single
+        required: false
+        example: married
         type: string
         enumValues:
           - single
           - married
         exampleWasSpecified: false
-        nullable: false
+        nullable: true
         custom: []
       address:
         name: address
         description: 'Must be at least 10 characters. Must not be greater than 200 characters.'
-        required: true
+        required: false
         example: 'n'
         type: string
         enumValues: []
         exampleWasSpecified: false
-        nullable: false
+        nullable: true
         custom: []
       emergency_phone:
         name: emergency_phone
@@ -1563,49 +1250,59 @@ endpoints:
       educational_background:
         name: educational_background
         description: 'Must not be greater than 250 characters.'
-        required: true
+        required: false
         example: a
         type: string
         enumValues: []
         exampleWasSpecified: false
-        nullable: false
+        nullable: true
         custom: []
       field_of_study:
         name: field_of_study
         description: 'Must not be greater than 250 characters.'
-        required: true
+        required: false
         example: 'y'
         type: string
         enumValues: []
         exampleWasSpecified: false
-        nullable: false
+        nullable: true
         custom: []
       institution_name:
         name: institution_name
         description: 'Must not be greater than 250 characters.'
-        required: true
+        required: false
         example: k
         type: string
         enumValues: []
         exampleWasSpecified: false
-        nullable: false
+        nullable: true
         custom: []
       Position:
         name: Position
         description: 'Must not be greater than 250 characters.'
-        required: true
+        required: false
         example: c
         type: string
         enumValues: []
         exampleWasSpecified: false
-        nullable: false
+        nullable: true
         custom: []
       field_of_activity:
         name: field_of_activity
         description: 'Must not be greater than 250 characters.'
-        required: true
+        required: false
         example: m
         type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+      image:
+        name: image
+        description: 'Must be an image. Must not be greater than 2048 kilobytes.'
+        required: true
+        example: null
+        type: file
         enumValues: []
         exampleWasSpecified: false
         nullable: false
@@ -1616,8 +1313,8 @@ endpoints:
       father_name: g
       national_code: architecto
       issue_place: 'n'
-      birth_date: '2021-08-22'
-      married_status: single
+      birth_date: '2021-08-31'
+      married_status: married
       address: 'n'
       emergency_phone: '09564255931'
       any_teammate_family: i
@@ -1629,7 +1326,8 @@ endpoints:
       institution_name: k
       Position: c
       field_of_activity: m
-    fileParameters: []
+    fileParameters:
+      image: null
     responses: []
     responseFields: []
     auth: []
@@ -1697,62 +1395,29 @@ endpoints:
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      first_name:
-        name: first_name
-        description: 'Must not be greater than 80 characters.'
-        required: false
+      address:
+        name: address
+        description: 'Must not be greater than 250 characters.'
+        required: true
         example: b
         type: string
         enumValues: []
         exampleWasSpecified: false
-        nullable: true
+        nullable: false
         custom: []
-      last_name:
-        name: last_name
-        description: 'Must not be greater than 80 characters.'
-        required: false
-        example: 'n'
+      postal_code:
+        name: postal_code
+        description: 'Must match the regex /^[0-9]{10}$/.'
+        required: true
+        example: '5642559314'
         type: string
         enumValues: []
         exampleWasSpecified: false
-        nullable: true
-        custom: []
-      email:
-        name: email
-        description: 'Must be a valid email address.'
-        required: false
-        example: ashly64@example.com
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: true
-        custom: []
-      phone_number:
-        name: phone_number
-        description: 'Must match the regex /^09[0-9]{9}$/. Must not be greater than 11 characters.'
-        required: false
-        example: vdljni
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: true
-        custom: []
-      address:
-        name: address
-        description: 'Must not be greater than 250 characters.'
-        required: false
-        example: k
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: true
+        nullable: false
         custom: []
     cleanBodyParameters:
-      first_name: b
-      last_name: 'n'
-      email: ashly64@example.com
-      phone_number: vdljni
-      address: k
+      address: b
+      postal_code: '5642559314'
     fileParameters: []
     responses: []
     responseFields: []

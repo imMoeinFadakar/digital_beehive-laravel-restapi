@@ -8,6 +8,9 @@ use Modules\Category\Models\Category;
 use Modules\Category\Transformers\CategoryResource;
 use Modules\Shared\Http\Controllers\SharedController;
 
+/**
+ * category of product
+ */
 class CategoryController extends SharedController
 {
     /**

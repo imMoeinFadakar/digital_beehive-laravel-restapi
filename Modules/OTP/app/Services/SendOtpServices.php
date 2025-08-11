@@ -35,7 +35,8 @@ class SendOtpServices extends SharedController
 
       }catch(Exception $e){
 
-         return $this->api(null,__METHOD__,"خطایی در ارسال پیام اتفاق افتاد" . $e->getMessage());
+         return $this->api(null,__METHOD__,
+         "خطایی در ارسال پیام اتفاق افتاد" . $e->getMessage(),false,500);
 
       }
 

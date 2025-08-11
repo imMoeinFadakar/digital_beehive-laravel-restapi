@@ -14,13 +14,13 @@ class VerifiOtpServices extends SharedController
 
      $validated = $request->validated();
 
-      $code = $this->findCode($validated['code'],$validated['phone_number']);
+      $code = $this->getOtpCode($validated['code'],$validated['phone_number']);
       if(! $code)
          return $this->api(null,__METHOD__,"کد اشتباه است");
 
       $user = $this->findUser($validated['phone_number']);
 
-      $token  =$user->createToken("USER AUTH OTP");
+      $token  = $user->createToken("USER AUTH OTP");
 
       return $this->api(new OtpResource(['user' => $user , "token" => $token]),
       __METHOD__);
@@ -33,7 +33,7 @@ class VerifiOtpServices extends SharedController
       $code->save();
    }
 
-   protected function findCode(int $code,int $phoneNumber): Otp|null
+   protected function getOtpCode(int $code,int $phoneNumber): Otp|null
    {
       return Otp::query()
       ->where("otp_code",$code)

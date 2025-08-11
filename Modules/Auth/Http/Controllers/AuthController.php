@@ -11,15 +11,19 @@ use Modules\Auth\Models\SellerUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Modules\Auth\Models\VerifiEmail;
 use Modules\Shared\Traits\ApiResponseTrait;
 use Modules\Auth\Http\Requests\LoginRequest;
 use Modules\Auth\Http\Requests\RegisterRequest;
+use Modules\Auth\Http\Requests\VerifiEmailRequest;
 use Modules\TelephoneSeller\Models\TelephoneSeller;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Modules\Auth\App\Notifications\ValidationEmailNotification;
+use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 
 class AuthController extends Controller
 {   
    use HasApiTokens,ApiResponseTrait; 
-    // use ApiResponseTrait;
 
     /**
      * @param \Modules\Auth\Http\Requests\LoginRequest $Request
@@ -29,14 +33,14 @@ class AuthController extends Controller
 
             $validated = $Request->validated();
         
-        $user  = $this->getUserByEmail($validated['email']);
+        $user  = $this->getUserByEmail($validated['email'],"active");
 
         if(! $user || ! $this->checkPassword($user->password,$validated['password']))
             return $this->api(null,__METHOD__,
             "کاربری یا این مشخصات در سیستم وجود ندارد",
             false,401);
 
-        $this->loginVerifiedUser($user);
+        $this->loginUser($user);
 
         $token = $this->craeteAccessToken($user);
 
@@ -48,25 +52,32 @@ class AuthController extends Controller
 
     }
 
-    protected function loginVerifiedUser(User $user)
+    /**
+     * @param \Modules\User\Models\User $user
+     */
+    protected function loginUser(User $user)
     {
         return Auth::login($user);
     }
 
     /**
-     * find user with its 
-     * @param string $userEmail
+     * @param string $phoneNumber
      * @return User|null
      */
-    protected function getUserByEmail(string $userEmail): User|null
+    protected function getUserByEmail(string $email,string $userStatus): User|null
     {
         return User::query()
-        ->where("email",$userEmail)
-        ->where("status","active")
+        ->where("email",$email)
+        ->where("status",$userStatus)
         ->first();
     }
 
-    protected function checkPassword(string $userPassword,string $requestPassword)
+    /**
+     * @param string $userPassword
+     * @param string $requestPassword
+     * @return bool
+     */
+    protected function checkPassword(string $userPassword,string $requestPassword): ?bool
     {
         if(! Hash::check($requestPassword,$userPassword))
             return false;
@@ -77,11 +88,10 @@ class AuthController extends Controller
 
 
     /**
-     * Summary of removeNullIndexes
      * @param array $array
      * @return array
      */
-    public function removeNullIndexes(array $array): array
+    public function removeNullIndexes(array $array): ?array
     {
         return array_filter($array, function($value) {
             return ! is_null($value);
@@ -123,42 +133,104 @@ class AuthController extends Controller
      * @param \Modules\User\Models\User $user
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(RegisterRequest $request,User $user): ?JsonResponse
+    public function register(RegisterRequest $request,User $user,VerifiEmail $verifiEmail): ?JsonResponse
     {
         $validated = $request->validated();
 
         $validated['refferal_code'] = $this->generateRefferalCode();
         
-        $user =  $user->addNewUser($validated);
+       $user =   $user->addNewUser($validated);
 
-        if(isset($request->seller_code)){
+
+        if($request->has("seller_code")){
 
             $seller = $this->getSellerByPersonelCode($request->seller_code);
+                if($seller){
+                    (new SellerUser())->AddNewSellerUser([
+                    "telephone_seller_id" => $seller->id,
+                    "user_id" => $user->id
+                ]);
+            }
+             
         }
         
-        if($seller && $seller != null){
-            (new SellerUser())->AddNewSellerUser([
-                "telephone_seller_id" => $seller->id,
-                "user_id" => $user->id
-            ]);
-        }
-            
-        $token = $this->craeteAccessToken($user);
+        $code = rand(111111,999999);
 
-        return $this->api(["user"=>$user,"token"=>$token],__METHOD__);
+        $verifiEmail->addNewVerifiEmail([
+            "code" => $code,
+            "email" => $validated['email']
+        ]);
+
+        $user->notify(new ValidationEmailNotification($code));
+
+        return $this->api(null,__METHOD__,
+        "we send a email to {$request->email}");
     }
 
 
-    public function getSellerByPersonelCode(int $personelCode): TelephoneSeller|null
+    public function verifiEmail(VerifiEmailRequest $request , VerifiEmail $verifiEmail )
+    {
+        $validated = $request->validated();
+        $verifiCode = $verifiEmail->getVerifiCode($request->validated());
+        if(! $verifiCode)
+            return $this->api(null,__METHOD__,
+        "کد معتبری یافت نشد",false,422);
+
+        $user = $this->getUserByEmail($validated['email'],'inactive');
+
+        $this->updateUserStatus($user);
+
+        $this->deleteCode($verifiCode);
+
+        $token = $this->craeteAccessToken($user);
+
+        $userWithoutNullIndex = $this->removeNullIndexes($user->toArray());
+
+        return $this->api(["user" => $userWithoutNullIndex , "token" => $token ],
+        __METHOD__,"welcome!");
+    }
+
+
+    public function updateUserStatus(User $user)
+    {
+        $user->status = "active";
+        $user->email_verified_at = now();
+        $user->save();
+    }
+
+    public function deleteCode(object $code)
+    {
+        return $code->delete();
+    }
+
+
+
+
+    public function getValidationEmail($request)
+    {
+        return VerifiEmail::query()
+        ->where("email",$request->email)
+        ->where("token",$request->token)
+        ->first();
+    }
+
+
+    /**
+     * @param string $personelCode
+     * @return TelephoneSeller|null
+     */
+    public function getSellerByPersonelCode(string $personelCode): TelephoneSeller|null
     {
         return TelephoneSeller::query()
         ->where("personel_code",$personelCode)
         ->where("status","active")
-        ->first() ?? null;
+        ->first();
     }
 
 
-
+    /**
+     * @return string
+     */
     public function generateRefferalCode(): ?string
     {
         $refferalCode =  Str::random(10);
@@ -173,7 +245,10 @@ class AuthController extends Controller
 
     }
 
-
+    /**
+     * @param string $refferalCode
+     * @return bool
+     */
     protected function isRefferalCodeExists(string $refferalCode): ?bool
     {
         return User::query()
