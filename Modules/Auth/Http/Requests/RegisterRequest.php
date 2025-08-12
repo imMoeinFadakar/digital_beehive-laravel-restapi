@@ -2,6 +2,7 @@
 
 namespace Modules\Auth\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -14,9 +15,16 @@ class RegisterRequest extends FormRequest
     {
         return [
             'password' => 'required|min:8|confirmed',
-            "phone_number" => "required|regex:/^09\d{9}$/|unique:users,phone_number",
-            "email" => 'required|email|unique:users,email' ,
-            "seller_code" => "nullable|max:10|exists:telephone_sellers,personel_code"
+            "phone_number" => ['required','regex:/^09\d{9}$/',
+             Rule::unique('users')
+             ->where(fn($query) => $query->whereNotNull("email_verified_at")) ] ,
+
+            "seller_code" => "nullable",
+
+            "email" => ['required','email',
+            'regex:/^[A-Za-z0-9._%+-]+@gmail\.com$/i',
+             Rule::unique('users')
+             ->where(fn($query) => $query->whereNotNull("email_verified_at")) ] 
         ];
         
     }
@@ -28,6 +36,8 @@ class RegisterRequest extends FormRequest
             'email.required' => 'وارد کردن ایمیل الزامی است.',
             'email.email' => 'فرمت ایمیل معتبر نیست.',
             'email.unique' => 'این ایمیل قبلاً ثبت شده است.',
+            'email.regex' => 'فرمت ایمیل معتبر نیست.',
+            
 
             'password.required' => 'وارد کردن رمز عبور الزامی است.',
             'password.min' => 'رمز عبور باید حداقل ۸ کاراکتر باشد.',

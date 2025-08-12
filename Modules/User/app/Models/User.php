@@ -2,7 +2,6 @@
 
 namespace Modules\User\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Sellers\Models\Seller;
 use Modules\Auth\Models\SellerUser;
@@ -12,9 +11,10 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\OrderUser\Models\OrderUser;
 use Illuminate\Notifications\Notifiable;
 use Modules\UserProduct\Models\UserProduct;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Modules\Auth\app\Notifications\ResetPasswordNotification;
+use Modules\Auth\Notifications\ResetPasswordNotification;
 
 // use Modules\User\Database\Factories\UserFactory;
 

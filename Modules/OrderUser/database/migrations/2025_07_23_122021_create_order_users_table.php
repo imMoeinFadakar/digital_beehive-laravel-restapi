@@ -24,6 +24,7 @@ return new class extends Migration
 
             $table->unsignedInteger('quentity')->default(1);
 
+            $table->string("transaction_number",50)->default("pay_at_home");
             $table->enum("status",['in_proccess','done','canceled']);
 
             $table->timestamps();

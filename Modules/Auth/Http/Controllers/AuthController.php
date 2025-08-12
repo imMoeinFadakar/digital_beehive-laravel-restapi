@@ -18,8 +18,8 @@ use Modules\Auth\Http\Requests\RegisterRequest;
 use Modules\Auth\Http\Requests\VerifiEmailRequest;
 use Modules\TelephoneSeller\Models\TelephoneSeller;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Modules\Auth\App\Notifications\ValidationEmailNotification;
-use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use Illuminate\Support\Facades\Cache;
+use Modules\Auth\Notifications\ValidationEmailNotification;
 
 class AuthController extends Controller
 {   
@@ -128,44 +128,63 @@ class AuthController extends Controller
          status: false, code: 500);
     }
 
-    /**
-     * @param \Modules\Auth\Http\Requests\RegisterRequest $request
-     * @param \Modules\User\Models\User $user
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function register(RegisterRequest $request,User $user,VerifiEmail $verifiEmail): ?JsonResponse
+ 
+
+
+
+
+
+    public function register(RegisterRequest $request,VerifiEmail $verifiEmail,User $user)
     {
-        $validated = $request->validated();
+       $validated = $request->validated();
+       
+        $user = $this->getUserByEmail($validated['email'],"inactive");
 
-        $validated['refferal_code'] = $this->generateRefferalCode();
-        
-       $user =   $user->addNewUser($validated);
+        if(! $user){
+            $refferalCode = $this->generateRefferalCode();
+            $validated["refferal_code"] = $refferalCode;
+             $user = User::create($validated);
+         }
 
+        if( $user && ! $user->email_verified_at)
+            $user->update([
+                'password' => Hash::make($validated['password']),
+                'phone_number' => $validated['phone_number'],
+            ]);
 
-        if($request->has("seller_code")){
+            if($this->isCodeExists($validated['email']))
+                return $this->api(null,
+            __METHOD__,"An active code already exists. Try again in 2 minutes.",
+            false,400);
 
-            $seller = $this->getSellerByPersonelCode($request->seller_code);
-                if($seller){
-                    (new SellerUser())->AddNewSellerUser([
-                    "telephone_seller_id" => $seller->id,
-                    "user_id" => $user->id
-                ]);
-            }
-             
-        }
-        
-        $code = rand(111111,999999);
+            
+          $verifiEmail =  $verifiEmail->addNewVerifiEmail([
+                "email" => $validated["email"],
+                "code" => $this->generateRandomCode(),
+                "expire_at" => now()->addMinutes(2)
+            ]);
 
-        $verifiEmail->addNewVerifiEmail([
-            "code" => $code,
-            "email" => $validated['email']
-        ]);
-
-        $user->notify(new ValidationEmailNotification($code));
-
-        return $this->api(null,__METHOD__,
-        "we send a email to {$request->email}");
+            $user->notify(new ValidationEmailNotification($verifiEmail->code));
+       
+            return $this->api(null,__METHOD__,
+        "we send a email to {$user->email}");
     }
+
+
+    protected function generateRandomCode()
+    {
+        return rand(111111,999999);
+    }
+
+
+    protected function isCodeExists(string $email)
+    {
+        return VerifiEmail::query()
+        ->where("email",$email)
+        ->where("expire_at", ">", now())
+        ->first();
+    }
+
 
 
     public function verifiEmail(VerifiEmailRequest $request , VerifiEmail $verifiEmail )

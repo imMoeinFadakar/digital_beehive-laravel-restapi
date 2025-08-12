@@ -13,7 +13,8 @@ class StoreNewOrderUserRequest extends FormRequest
     {
         return [
             "product_id" => "required|integer|exists:products,id" ,
-            "quentity" => "required|min:1|max:10"
+            "quentity" => "required|min:1|max:10",
+            "transaction_number" => "nullable|integer"
         ];
     }
 

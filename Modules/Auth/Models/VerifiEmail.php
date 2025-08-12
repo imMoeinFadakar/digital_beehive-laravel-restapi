@@ -3,12 +3,13 @@
 namespace Modules\Auth\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 // use Modules\Auth\Database\Factories\VerifiEmailFactory;
 
 class VerifiEmail extends Model
 {
-    use HasFactory;
+    use HasFactory,Notifiable;
 
     protected $table = "eamil_verification_token";
 
@@ -19,6 +20,7 @@ class VerifiEmail extends Model
     protected $fillable = [
         "email",
         "code",
+        "expire_at"
     ];
 
 

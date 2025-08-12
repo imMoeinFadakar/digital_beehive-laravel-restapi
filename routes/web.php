@@ -119,4 +119,15 @@ Route::middleware('auth')->group(function () {
 
 });
 
+Route::get('/test-email', function () {
+    \Illuminate\Support\Facades\Mail::raw('This is a test email', function ($message) {
+        $message->to('moeinfadakar3@gmail.com')
+                ->subject('Test Email from web');
+    });
+    return 'Sent';
+});
+
+
+
+
 require __DIR__.'/auth.php';

@@ -18,12 +18,14 @@ class OrderUser extends Model
     protected $fillable = [
         "user_id",
         "product_id",
-        "quentity"
+        "quentity",
+        "transaction_number"
     ];
 
 
     protected $hidden = [
-        
+        "created_at",
+        "updated_at"
     ];
 
     public function user()

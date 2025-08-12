@@ -24,6 +24,9 @@ class OrderUserController extends SharedController
         ->with(['product'])
         ->get();
 
+        $orderUser->makeHidden("user_id");
+
+
         return $this->api(OrderUserResource::collection($orderUser),__METHOD__);
     }
 
@@ -38,10 +41,7 @@ class OrderUserController extends SharedController
         ->with(['product'])
         ->get();
 
-        
-
         return view("ProductUserView",compact("orders"));
-
 
     }
 
@@ -59,7 +59,6 @@ class OrderUserController extends SharedController
         $validated = $request->validated();
 
         $validated['user_id'] = auth()->user()->id;
-
 
         $orderUser = $orderUser->AddNewOrderUser($validated);
 
