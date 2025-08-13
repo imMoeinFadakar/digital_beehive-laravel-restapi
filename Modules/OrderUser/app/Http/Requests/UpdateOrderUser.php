@@ -4,7 +4,7 @@ namespace Modules\OrderUser\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateOrderUserRequest extends FormRequest
+class UpdateOrderUser extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -12,7 +12,8 @@ class UpdateOrderUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "status" => "required|string|in:in_proccess,canceled",
+            "quentity" => "nullable|integer",
+            "status" => "required|string|in:canceled,in_proccess"
         ];
     }
 

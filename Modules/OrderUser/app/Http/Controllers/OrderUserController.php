@@ -10,6 +10,7 @@ use Modules\OrderUser\Transformers\OrderUserResource;
 use Modules\Shared\Http\Controllers\SharedController;
 use Modules\OrderUser\Http\Requests\UpdateOrderUserRequest;
 use Modules\OrderUser\Http\Requests\StoreNewOrderUserRequest;
+use Modules\OrderUser\Http\Requests\UpdateOrderUser;
 
 class OrderUserController extends SharedController
 {
@@ -68,7 +69,19 @@ class OrderUserController extends SharedController
 
     }
 
- 
+    public function update(UpdateOrderUser $request, OrderUser $orderUser,$id)
+    {
+       $order =  $orderUser->find($id);
+        
+        $order->update($request->validated());
+
+
+        return $this->api(new OrderUserResource($order->toArray()),__METHOD__);
+    }
+
+
+
+
 
   
 }

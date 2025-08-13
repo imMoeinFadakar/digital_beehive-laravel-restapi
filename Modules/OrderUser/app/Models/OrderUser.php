@@ -19,7 +19,8 @@ class OrderUser extends Model
         "user_id",
         "product_id",
         "quentity",
-        "transaction_number"
+        "transaction_number",
+        "status"
     ];
 
 
@@ -44,9 +45,9 @@ class OrderUser extends Model
         return $this->query()->create($validated);
     }
 
-    public function updateOrderUser(array $validated): ?static
+    public function updateOrderUser($request)
     {
-        $this->update($validated);
+        $this->update($request->all());
         return $this;
     }
 
