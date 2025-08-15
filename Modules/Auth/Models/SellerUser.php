@@ -13,16 +13,29 @@ class SellerUser extends Model
 
     public  $timestamps = false;
 
-
-    public function user()
+      public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
+
+    // این رابطه تعداد رفرال‌های کاربر رو میاره
+    public function referrals()
+    {
+        return $this->hasManyThrough(
+            User::class,    // مدل نهایی که می‌خوای بگیری (رفرال‌ها)
+            User::class,    // مدل واسطه (کاربر SellerUser)
+            'id',           // کلید اصلی کاربر
+            'reffering_id', // فیلد ارجاع در جدول users
+            'user_id',      // کلید کاربر در SellerUser
+            'id'            // کلید اصلی در users
+        );
+    }
+
    public function seller()
     {
         return $this->belongsTo(TelephoneSeller::class);
     }
-
+ 
 
     /**
      * The attributes that are mass assignable.

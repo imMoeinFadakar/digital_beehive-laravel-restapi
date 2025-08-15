@@ -13,7 +13,7 @@ class UpdateOrderUser extends FormRequest
     {
         return [
             "quentity" => "nullable|integer",
-            "status" => "required|string|in:canceled,in_proccess"
+            "status" => "required|string|in:canceled,in_proccess",
         ];
     }
 

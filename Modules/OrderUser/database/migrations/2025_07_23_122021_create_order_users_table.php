@@ -26,6 +26,7 @@ return new class extends Migration
 
             $table->string("transaction_number",50)->default("pay_at_home");
             $table->enum("status",['in_proccess','done','canceled']);
+            $table->enum("payment_method",['pay_at_home','online','card_to_card']);
 
             $table->timestamps();
         });

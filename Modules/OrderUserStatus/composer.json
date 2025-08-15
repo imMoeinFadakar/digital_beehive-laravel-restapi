@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/orderuserstatus",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\OrderUserStatus\\": "app/",
+            "Modules\\OrderUserStatus\\Database\\Factories\\": "database/factories/",
+            "Modules\\OrderUserStatus\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\OrderUserStatus\\Tests\\": "tests/"
+        }
+    }
+}

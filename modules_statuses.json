@@ -20,5 +20,6 @@
     "TelephoneSeller": true,
     "Task": true,
     "Otp": true,
-    "Persenel": true
+    "Persenel": true,
+    "OrderUserStatus": true
 }

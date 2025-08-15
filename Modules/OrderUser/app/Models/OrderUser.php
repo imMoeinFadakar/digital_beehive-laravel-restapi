@@ -20,13 +20,15 @@ class OrderUser extends Model
         "product_id",
         "quentity",
         "transaction_number",
-        "status"
+        "status",
+        "payment_method"
     ];
 
 
     protected $hidden = [
         "created_at",
-        "updated_at"
+        "updated_at",
+        
     ];
 
     public function user()
@@ -45,7 +47,7 @@ class OrderUser extends Model
         return $this->query()->create($validated);
     }
 
-    public function updateOrderUser($request)
+    public function updateOrderUser($request): ?static
     {
         $this->update($request->all());
         return $this;

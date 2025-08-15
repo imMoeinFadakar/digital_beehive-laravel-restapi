@@ -38,6 +38,9 @@
                 <th>شماره تماس</th>
                 <th> وضعیت سفارشات کاربر</th>
                 <th>دیدن زیرمجموعه کاربر</th>
+                <th>رفرال های کاربر</th>
+                <th> ثبت گزارش </th>
+
 
 
             </tr>
@@ -57,6 +60,11 @@
                  <td>
                     <a  class="btn btn-danger" href="{{ route("reffrals",[$user->user->refferal_code, $gen + 1 ]) }}">مشاهده</a>
                 </td>
+                <td>{{ $user->referrals_count  }}</td>
+                <td>
+                    <a  class="btn btn-warning" href="{{ route("new.report.create",$user->user->refferal_code) }}">ثبت گزارش</a>
+                </td>
+
             </tr>
             
             @endforeach
@@ -64,7 +72,9 @@
         </tbody>
     </table>
 </div>
-
+<div class="d-flex justify-content-center">
+    {{ $sellerUser->links() }}
+</div>
 <script>
     function copyToClipboard() {
         const link = document.getElementById("inviteLink").href;

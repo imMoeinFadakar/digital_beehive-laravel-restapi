@@ -11,6 +11,8 @@ use Modules\TelephoneSeller\Models\TelephoneSeller;
 use Modules\OrderUser\Http\Controllers\OrderUserController;
 use Modules\Product\Models\Product;
 
+
+// all sellers 
 Route::get('/svndfbdfbpworgvjker0gjeggvodhvfdh', function () {
 
 
@@ -21,7 +23,7 @@ Route::get('/svndfbdfbpworgvjker0gjeggvodhvfdh', function () {
 });
 
 
-
+// index orders
 Route::get('/dfvhdsivdih9erhgdojgodbd',function(){
 
 
@@ -30,7 +32,7 @@ Route::get('/dfvhdsivdih9erhgdojgodbd',function(){
     return view("OrderUser",compact('orders'));
 });
 
-
+// update order
 Route::get("/fdsdfvdfbvndifvnbdkfvdn/{userId}/{orderId}",function($userId,$orderId){
 
     $order = OrderUser::find($orderId);
@@ -63,7 +65,7 @@ Route::get("/fdsdfvdfbvndifvnbdkfvdn/{userId}/{orderId}",function($userId,$order
 
 })->name('confirm');
 
-
+// all user`s subset
 Route::get('fnpdfnbodfbndfmvdpfvmdfvm/user/{userId}/referrals', function ($userId) {
 
     // متد کمکی برای گرفتن والد
@@ -103,12 +105,20 @@ Route::get('fnpdfnbodfbndfmvdpfvmdfvm/user/{userId}/referrals', function ($userI
 
 
 
-Route::get('/dashboard',[ProfileController::class,"index"])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard',[ProfileController::class,"index"])
+->middleware(['auth', 'verified'])->name('dashboard');
 
 
 
 
 Route::middleware('auth')->group(function () {
+
+    Route::get("new_report/create/{referralCode}",[ProfileController::class,"createNewReport"])
+    ->name("new.report.create");
+
+      Route::post("new_report/store",[ProfileController::class,"storeNewReport"])
+    ->name("new.report.store");
+
 
     Route::get("/userproduct/{id}",[OrderUserController::class,"getOrderUserByUserId"])
     ->name("user.product.get");

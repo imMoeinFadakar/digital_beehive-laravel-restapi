@@ -13,7 +13,7 @@ use Illuminate\Auth\Events\PasswordReset;
 use Modules\Auth\Http\Requests\ResetPasswordRequest;
 use Modules\Auth\Http\Requests\ForgetPasswordRequest;
 use Modules\Shared\Http\Controllers\SharedController;
-use Modules\Auth\app\Notifications\ResetPasswordNotification;
+use Modules\Auth\Notifications\ResetPasswordNotification;
 
 class ForgetPasswordController extends SharedController
 {

@@ -25,7 +25,10 @@ class Refferal extends Model
         return $this->belongsTo(User::class,"reffered_id","id");
     }
 
-
+    public function referrals()
+    {
+        return $this->hasMany(User::class, 'reffering_id', 'id');
+    }
 
     public function addNewRefferal(array $refferalInfo): ?Refferal
     {

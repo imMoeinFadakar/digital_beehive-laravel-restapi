@@ -128,7 +128,7 @@ return [
         'generator' => [
             // app/
             'actions' => ['path' => 'app/Actions', 'generate' => false],
-            'casts' => ['path' => 'app/Casts', 'generate' => true],
+            'casts' => ['path' => 'app/Casts', 'generate' => false],
             'channels' => ['path' => 'app/Broadcasting', 'generate' => false],
             'class' => ['path' => 'app/Classes', 'generate' => false],
             'command' => ['path' => 'app/Console', 'generate' => false],
@@ -152,7 +152,7 @@ return [
             'rules' => ['path' => 'app/Rules', 'generate' => false],
             'services' => ['path' => 'app/Services', 'generate' => false],
             'scopes' => ['path' => 'app/Models/Scopes', 'generate' => false],
-            'traits' => ['path' => 'app/Traits', 'generate' => true],
+            'traits' => ['path' => 'app/Traits', 'generate' => false],
 
             // app/Http/
             'controller' => ['path' => 'app/Http/Controllers', 'generate' => true],
@@ -160,12 +160,12 @@ return [
             'request' => ['path' => 'app/Http/Requests', 'generate' => true],
 
             // config/
-            'config' => ['path' => 'config', 'generate' => true],
+            'config' => ['path' => 'config', 'generate' => false],
 
             // database/
-            'factory' => ['path' => 'database/factories', 'generate' => true],
-            'migration' => ['path' => 'database/migrations', 'generate' => true],
-            'seeder' => ['path' => 'database/seeders', 'generate' => true],
+            'factory' => ['path' => 'database/factories', 'generate' => false],
+            'migration' => ['path' => 'database/migrations', 'generate' => false],
+            'seeder' => ['path' => 'database/seeders', 'generate' => false],
 
             // lang/
             'lang' => ['path' => 'lang', 'generate' => false],
@@ -179,8 +179,8 @@ return [
             'routes' => ['path' => 'routes', 'generate' => true],
 
             // tests/
-            'test-feature' => ['path' => 'tests/Feature', 'generate' => true],
-            'test-unit' => ['path' => 'tests/Unit', 'generate' => true],
+            'test-feature' => ['path' => 'tests/Feature', 'generate' => false],
+            'test-unit' => ['path' => 'tests/Unit', 'generate' => false],
         ],
     ],
 

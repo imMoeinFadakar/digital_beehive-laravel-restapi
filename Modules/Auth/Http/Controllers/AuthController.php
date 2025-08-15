@@ -20,6 +20,7 @@ use Modules\TelephoneSeller\Models\TelephoneSeller;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Cache;
 use Modules\Auth\Notifications\ValidationEmailNotification;
+use Modules\OrderUserStatus\Models\OrderUserstatus;
 
 class AuthController extends Controller
 {   
@@ -151,6 +152,8 @@ class AuthController extends Controller
                 'password' => Hash::make($validated['password']),
                 'phone_number' => $validated['phone_number'],
             ]);
+          
+
 
             if($this->isCodeExists($validated['email']))
                 return $this->api(null,

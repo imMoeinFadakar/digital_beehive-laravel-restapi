@@ -14,7 +14,7 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'password' => 'required|min:8|confirmed',
+            'password' => 'required|min:4|confirmed',
             "phone_number" => ['required','regex:/^09\d{9}$/',
              Rule::unique('users')
              ->where(fn($query) => $query->whereNotNull("email_verified_at")) ] ,
@@ -40,7 +40,7 @@ class RegisterRequest extends FormRequest
             
 
             'password.required' => 'وارد کردن رمز عبور الزامی است.',
-            'password.min' => 'رمز عبور باید حداقل ۸ کاراکتر باشد.',
+            'password.min' => 'رمز عبور باید حداقل 4 کاراکتر باشد.',
             'password.confirmed' => 'رمز عبور و تکرار آن با هم مطابقت ندارند.',
 
             'first_name.required' => 'وارد کردن نام الزامی است.',

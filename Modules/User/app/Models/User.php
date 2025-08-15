@@ -15,6 +15,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Modules\Auth\Notifications\ResetPasswordNotification;
+use Modules\Refferal\Models\Refferal;
 
 // use Modules\User\Database\Factories\UserFactory;
 
@@ -57,6 +58,22 @@ class User extends Authenticatable implements MustVerifyEmail
         "status"
     ];
 
+
+   public function reffering_id()
+    {
+        return $this->hasMany(Refferal::class,"reffering_id","id");
+    }
+
+    public function referrals()
+    {
+        return $this->hasMany(User::class, 'reffering_id', 'id');
+    }
+
+
+    public function reffered_id()
+    {
+        return $this->belongsTo(Refferal::class,"reffered_id","id");
+    }
 
     public function seller_user()
     {

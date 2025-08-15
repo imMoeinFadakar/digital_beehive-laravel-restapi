@@ -14,6 +14,7 @@ class StoreNewOrderUserRequest extends FormRequest
         return [
             "product_id" => "required|integer|exists:products,id" ,
             "quentity" => "required|min:1|max:10",
+            "payment_method" => "required|string|in:pay_at_home,online,card_to_card",
             "transaction_number" => "nullable|integer"
         ];
     }

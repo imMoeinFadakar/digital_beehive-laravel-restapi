@@ -56,7 +56,6 @@ class OrderUserController extends SharedController
      */
     public function store( StoreNewOrderUserRequest $request , OrderUser $orderUser) {
 
-    
         $validated = $request->validated();
 
         $validated['user_id'] = auth()->user()->id;
@@ -71,10 +70,9 @@ class OrderUserController extends SharedController
 
     public function update(UpdateOrderUser $request, OrderUser $orderUser,$id)
     {
-       $order =  $orderUser->find($id);
-        
-        $order->update($request->validated());
+        $order = $orderUser->findOrFail($id);
 
+        $order->update($request->validated());
 
         return $this->api(new OrderUserResource($order->toArray()),__METHOD__);
     }
