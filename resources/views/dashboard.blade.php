@@ -5,87 +5,79 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    
-                    <p  clas >کد دعوت شما:
-                        <button class="btn btn-dark" onclick="copyToClipboard()">📋 کپی کن</button>
-                        <a id="inviteLink" href="{{ $sellerRefferalCode }}" target="_blank">
-                           {{ $sellerRefferalCode }}
+    <div class="py-6 sm:py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+
+            <!-- کد دعوت -->
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <p class="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+                    <span>کد دعوت شما:</span>
+                    <div class="flex items-center gap-2">
+                        <button class="bg-gray-800 text-white px-3 py-1 rounded hover:bg-gray-700 text-sm" onclick="copyToClipboard()"> کپی </button>
+                        <a id="inviteLink" href="{{ $sellerRefferalCode }}" target="_blank" class="text-blue-600 break-all">
+                            {{ $sellerRefferalCode }}
                         </a>
-                    </p>
-              
+                    </div>
+                </p>
+            </div>
+
+            <!-- جدول کاربران -->
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-4">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-sm text-left border-collapse">
+                        <thead class="bg-gray-800 text-white">
+                            <tr>
+                                <th class="px-4 py-2">#</th>
+                                <th class="px-4 py-2">نام</th>
+                                <th class="px-4 py-2">نام خانوادگی</th>
+                                <th class="px-4 py-2">ایمیل</th>
+                                <th class="px-4 py-2">شماره تماس</th>
+                                <th class="px-4 py-2">وضعیت سفارشات</th>
+                                <th class="px-4 py-2">زیرمجموعه‌ها</th>
+                                <th class="px-4 py-2">تعداد رفرال</th>
+                                <th class="px-4 py-2">گزارش</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($sellerUser as $index => $user)
+                                <tr class="border-b border-gray-200 dark:border-gray-700">
+                                    <td class="px-4 py-2">{{ $index + 1 }}</td>
+                                    <td class="px-4 py-2">{{ $user->user->first_name }}</td>
+                                    <td class="px-4 py-2">{{ $user->user->last_name }}</td>
+                                    <td class="px-4 py-2 break-all">{{ $user->user->email }}</td>
+                                    <td class="px-4 py-2">{{ $user->user->phone_number }}</td>
+                                    <td class="px-4 py-2">
+                                        <a class="bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 text-xs" href="{{ route('user.product.get', $user->user->id) }}">وضعیت خریدها</a>
+                                    </td>
+                                    <td class="px-4 py-2">
+                                        <a class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700 text-xs" href="{{ route('reffrals', [$user->user->refferal_code, $gen + 1]) }}">مشاهده</a>
+                                    </td>
+                                    <td class="px-4 py-2">{{ $user->referrals_count }}</td>
+                                    <td class="px-4 py-2">
+                                        <a class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600 text-xs" href="{{ route('new.report.create', $user->user->refferal_code) }}">ثبت گزارش</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- صفحه‌بندی -->
+                <div class="mt-4">
+                    {{ $sellerUser->links() }}
                 </div>
             </div>
         </div>
     </div>
 
-
-
-
-
-    <div class="container mt-5">
-
-    <table class="table table-bordered table-striped table-hover">
-        <thead class="table-dark">
-            <tr>
-                <th>#</th>
-                <th>نام</th>
-                <th>نام خانوادگی</th>
-                <th>ایمیل</th>
-                <th>شماره تماس</th>
-                <th> وضعیت سفارشات کاربر</th>
-                <th>دیدن زیرمجموعه کاربر</th>
-                <th>رفرال های کاربر</th>
-                <th> ثبت گزارش </th>
-
-
-
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($sellerUser as $index => $user)
-                
-            <tr>
-                <td>{{ $index +1}}</td>
-                <td>{{ $user->user->first_name }}</td>
-                <td>{{ $user->user->last_name }}</td>
-                <td>{{ $user->user->email }}</td>
-                <td>{{ $user->user->phone_number }}</td>
-                <td>
-                    <a  class="btn btn-success" href="{{ route("user.product.get",$user->user->id) }}">وضعیت خریدها</a>
-                </td>
-                 <td>
-                    <a  class="btn btn-danger" href="{{ route("reffrals",[$user->user->refferal_code, $gen + 1 ]) }}">مشاهده</a>
-                </td>
-                <td>{{ $user->referrals_count  }}</td>
-                <td>
-                    <a  class="btn btn-warning" href="{{ route("new.report.create",$user->user->refferal_code) }}">ثبت گزارش</a>
-                </td>
-
-            </tr>
-            
-            @endforeach
-            <!-- ردیف‌های بیشتر -->
-        </tbody>
-    </table>
-</div>
-<div class="d-flex justify-content-center">
-    {{ $sellerUser->links() }}
-</div>
-<script>
-    function copyToClipboard() {
-        const link = document.getElementById("inviteLink").href;
-
-        // کپی کردن به کلیپ‌بورد
-        navigator.clipboard.writeText(link).then(function() {
-            alert("لینک با موفقیت کپی شد!");
-        }, function(err) {
-            alert("خطا در کپی کردن لینک: " + err);
-        });
-    }
-</script>
-
+    <script>
+        function copyToClipboard() {
+            const link = document.getElementById("inviteLink").href;
+            navigator.clipboard.writeText(link).then(() => {
+                alert("لینک با موفقیت کپی شد!");
+            }).catch(err => {
+                alert("خطا در کپی کردن لینک: " + err);
+            });
+        }
+    </script>
 </x-app-layout>

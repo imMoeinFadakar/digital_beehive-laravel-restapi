@@ -18,6 +18,7 @@ class TelephoneSeller extends Authenticatable
      * The attributes that are mass assignable.
      */
     protected $fillable = [
+        "id",
           "first_name",
         "last_name",
         "national_code",
@@ -30,7 +31,7 @@ class TelephoneSeller extends Authenticatable
         "extera_activity",
         "health_status",
         "punishment_history",
-        "username",
+        "personel_code",
         "password",
         "score",
         "educational_background",
@@ -40,6 +41,11 @@ class TelephoneSeller extends Authenticatable
         "field_of_activity",
         "image"
     ];
+
+    protected $cast = [
+        "password" => "hash"
+    ];
+
 
     public function Seller_user()
     {

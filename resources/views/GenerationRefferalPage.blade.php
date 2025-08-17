@@ -9,66 +9,58 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    
-                    
-
+                    <!-- اینجا میتونی پیام یا توضیحات بگذاری -->
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-5">
+        <div class="overflow-x-auto bg-white dark:bg-gray-800 shadow-md rounded-lg">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead class="bg-gray-800 text-white">
+                    <tr>
+                        <th class="px-4 py-3 text-left text-sm font-semibold">#</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold">نام</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold">نام خانوادگی</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold">شماره تماس</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold">وضعیت سفارشات کاربر</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold">دیدن زیرمجموعه کاربر</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                    @foreach ($userRefferals as $index => $user)
+                        <tr>
+                            <td class="px-4 py-3 text-sm">{{ $index + 1 }}</td>
+                            <td class="px-4 py-3 text-sm">{{ $user->reffered->first_name }}</td>
+                            <td class="px-4 py-3 text-sm">{{ $user->reffered->last_name }}</td>
+                            <td class="px-4 py-3 text-sm">{{ $user->reffered->phone_number }}</td>
+                            <td class="px-4 py-3">
+                                <a href="{{ route('user.product.get', $user->reffered->id) }}"
+                                   class="inline-block bg-green-600 text-white px-3 py-1 rounded-lg hover:bg-green-700 transition">
+                                    وضعیت خریدها
+                                </a>
+                            </td>
+                            <td class="px-4 py-3">
+                                <a href="{{ route('reffrals', [$user->reffered->refferal_code, $gen + 1]) }}"
+                                   class="inline-block bg-red-600 text-white px-3 py-1 rounded-lg hover:bg-red-700 transition">
+                                    مشاهده
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-
-
-
-    <div class="container mt-5">
-
-    <table class="table table-bordered table-striped table-hover">
-        <thead class="table-dark">
-            <tr>
-                <th>#</th>
-                <th>نام</th>
-                <th>نام خانوادگی</th>
-                <th>شماره تماس</th>
-                <th> وضعیت سفارشات کاربر</th>
-                <th>دیدن زیرمجموعه کاربر</th>
-
-
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($userRefferals as $index => $user)
-                
-            <tr>
-                <td>{{ $index +1}}</td>
-                <td>{{ $user->reffered->first_name }}</td>
-                <td>{{ $user->reffered->last_name }}</td>
-                <td>{{ $user->reffered->phone_number }}</td>
-                <td>
-                    <a  class="btn btn-success" href="{{ route("user.product.get",$user->reffered->id) }}">وضعیت خریدها</a>
-                </td>
-                 <td>
-                    <a  class="btn btn-danger" href="{{ route("reffrals",[$user->reffered->refferal_code, $gen + 1]) }}">مشاهده</a>
-                </td>
-            </tr>
-            
-            @endforeach
-            <!-- ردیف‌های بیشتر -->
-        </tbody>
-    </table>
-</div>
-
-<script>
-    function copyToClipboard() {
-        const link = document.getElementById("inviteLink").href;
-
-        // کپی کردن به کلیپ‌بورد
-        navigator.clipboard.writeText(link).then(function() {
-            alert("لینک با موفقیت کپی شد!");
-        }, function(err) {
-            alert("خطا در کپی کردن لینک: " + err);
-        });
-    }
-</script>
-
+    <script>
+        function copyToClipboard() {
+            const link = document.getElementById("inviteLink").href;
+            navigator.clipboard.writeText(link)
+                .then(() => alert("لینک با موفقیت کپی شد!"))
+                .catch(err => alert("خطا در کپی کردن لینک: " + err));
+        }
+    </script>
 </x-app-layout>
+

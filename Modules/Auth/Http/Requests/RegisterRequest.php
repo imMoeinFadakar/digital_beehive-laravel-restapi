@@ -15,16 +15,13 @@ class RegisterRequest extends FormRequest
     {
         return [
             'password' => 'required|min:4|confirmed',
-            "phone_number" => ['required','regex:/^09\d{9}$/',
-             Rule::unique('users')
-             ->where(fn($query) => $query->whereNotNull("email_verified_at")) ] ,
-
+            "phone_number" => ['required','regex:/^09\d{9}$/',"unique:users,email"],
+            
             "seller_code" => "nullable",
 
             "email" => ['required','email',
             'regex:/^[A-Za-z0-9._%+-]+@gmail\.com$/i',
-             Rule::unique('users')
-             ->where(fn($query) => $query->whereNotNull("email_verified_at")) ] 
+            "unique:users,email"]
         ];
         
     }

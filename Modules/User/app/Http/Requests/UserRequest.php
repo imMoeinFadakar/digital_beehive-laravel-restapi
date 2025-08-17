@@ -13,8 +13,10 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "address" => ["required","max:250"],
-          "postal_code" => ["required", "regex:/^[0-9]{10}$/"]
+          "first_name" => "nullable|string|min:3|max:80",
+            "last_name" => "nullable|string|min:3|max:80",
+            "address" => ["nullable","max:250"],
+          "postal_code" => ["nullable", "regex:/^[0-9]{10}$/"],
         ];
     }
 

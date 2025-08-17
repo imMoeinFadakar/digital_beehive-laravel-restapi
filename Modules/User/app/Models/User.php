@@ -13,9 +13,11 @@ use Illuminate\Notifications\Notifiable;
 use Modules\UserProduct\Models\UserProduct;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Modules\Auth\Notifications\ResetPasswordNotification;
 use Modules\Refferal\Models\Refferal;
+use Modules\TelephoneSeller\Models\TelephoneSeller;
 
 // use Modules\User\Database\Factories\UserFactory;
 
@@ -129,7 +131,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Activity::class);
     }
 
-
+    public function telephone_seller()
+    {
+        return $this->HasMany(SellerUser::class);
+    }
 
     public function addNewUser(array $validated): ?User
     {

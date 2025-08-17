@@ -19,6 +19,7 @@ use Modules\Auth\Http\Requests\VerifiEmailRequest;
 use Modules\TelephoneSeller\Models\TelephoneSeller;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Cache;
+use Modules\Auth\Http\Requests\ResendValidationRequest;
 use Modules\Auth\Notifications\ValidationEmailNotification;
 use Modules\OrderUserStatus\Models\OrderUserstatus;
 
@@ -138,40 +139,90 @@ class AuthController extends Controller
     public function register(RegisterRequest $request,VerifiEmail $verifiEmail,User $user)
     {
        $validated = $request->validated();
-       
-        $user = $this->getUserByEmail($validated['email'],"inactive");
 
+       // find or create
+        $user = $this->getUserByEmail($validated['email'],"inactive");
         if(! $user){
             $refferalCode = $this->generateRefferalCode();
             $validated["refferal_code"] = $refferalCode;
              $user = User::create($validated);
          }
 
-        if( $user && ! $user->email_verified_at)
-            $user->update([
-                'password' => Hash::make($validated['password']),
-                'phone_number' => $validated['phone_number'],
-            ]);
-          
 
-
-            if($this->isCodeExists($validated['email']))
-                return $this->api(null,
-            __METHOD__,"An active code already exists. Try again in 2 minutes.",
-            false,400);
-
-            
           $verifiEmail =  $verifiEmail->addNewVerifiEmail([
                 "email" => $validated["email"],
                 "code" => $this->generateRandomCode(),
                 "expire_at" => now()->addMinutes(2)
             ]);
+            
+            if($request->has("seller_code")){
+                
+                $seller = $this->findTelephoneSeller($request->seller_code);
+                if($seller && ! $this->isSellInvateExists($user->id,$seller->id))
+                SellerUser::query()
+                ->create([
+                    "user_id" => $user->id,
+                    "telephone_seller_id" => $seller->id
+                ]);
+            }
+
+
 
             $user->notify(new ValidationEmailNotification($verifiEmail->code));
        
             return $this->api(null,__METHOD__,
         "we send a email to {$user->email}");
     }
+
+    public function resendValidationCode(ResendValidationRequest $request , VerifiEmail $verifiEmail)
+    {
+        // validate info
+        $validated = $request->validated();
+
+        $user = $this->getUserByEmail($validated['email'],"inactive");
+        
+        // is code exists
+          if($this->isCodeExists($validated['email']))
+                return $this->api(null,
+            __METHOD__,"کد ارسال شده برای شما 2 دقیقه اعتبار دارد",
+            false,400);
+
+
+        $verifiEmail =  $verifiEmail->addNewVerifiEmail([
+            "email" => $validated["email"],
+            "code" => $this->generateRandomCode(),
+            "expire_at" => now()->addMinutes(2)
+        ]);
+
+
+        $user->notify(new ValidationEmailNotification($verifiEmail->code));
+
+
+             return $this->api(null,__METHOD__,
+        "we send a email again to {$user->email}");
+
+    }
+
+
+
+
+    public function isSellInvateExists(int $userId,int $sellerId): ?bool
+    {
+        return SellerUser::query()
+        ->where("user_id",$userId)
+        ->where("telephone_seller_id",$sellerId)
+        ->exists();
+
+    }
+
+
+    public function findTelephoneSeller(string $sellerCode): TelephoneSeller|null
+    {
+        return TelephoneSeller::query()
+        ->where("personel_code",$sellerCode)
+        ->first();
+    }
+
 
 
     protected function generateRandomCode()

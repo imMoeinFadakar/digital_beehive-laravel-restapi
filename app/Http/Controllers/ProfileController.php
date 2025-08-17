@@ -58,7 +58,7 @@ class ProfileController extends SharedController
         ->where("refferal_code",$refferalCode)
         ->where("status","active")
         ->first();
-
+        
         $userRefferals = Refferal::query()
         ->where("reffering_id",$user->id)
         ->with(['reffered:id,first_name,phone_number,last_name,refferal_code'])
@@ -106,6 +106,20 @@ class ProfileController extends SharedController
       
 
     }
+
+
+    public function getAllsellerUser()
+    {
+        
+
+       $sellerUserpevot =   SellerUser::query()
+       ->with([""])
+
+
+        return view("sellerUserView")
+    }
+
+
 
 
 

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Modules\TelephoneSeller\Models\TelephoneSeller;
 
 class RegisteredUserController extends Controller
 {
@@ -19,6 +20,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
+
         return view('auth.register');
     }
 
@@ -29,17 +31,17 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+       $valdiated =  $request->validate([
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'personel_code' => ['required', 'max:255', 'unique:'.TelephoneSeller::class],
+            'password' => ['required'],
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
         ]);
+        $valdiated['password'] = Hash::make($valdiated['password']);
+        $valdiated["image"] ="image";
+        $user = TelephoneSeller::query()
+        ->create($valdiated);
 
         event(new Registered($user));
 

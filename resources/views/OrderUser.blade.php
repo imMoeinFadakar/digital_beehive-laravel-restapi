@@ -1,74 +1,75 @@
-<!DOCTYPE html>
-<html lang="fa">
-<head>
-  <meta charset="UTF-8">
-  <title>جدول 10 ستونه</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="p-4">
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('لیست سفارشات') }}
+        </h2>
+    </x-slot>
 
-    @if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
+    <div class="py-6">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            @if(session('success'))
+                <div class="mb-4 p-4 bg-green-100 text-green-800 rounded-lg">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="mb-4 p-4 bg-red-100 text-red-800 rounded-lg">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            <div class="overflow-x-auto bg-white dark:bg-gray-800 shadow-md rounded-lg">
+                <table class="min-w-full text-sm text-center divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead class="bg-gray-800 text-white">
+                        <tr>
+                            <th class="px-4 py-3">ردیف</th>
+                            <th class="px-4 py-3">نام</th>
+                            <th class="px-4 py-3">نام خانوادگی</th>
+                            <th class="px-4 py-3">شماره همراه</th>
+                            <th class="px-4 py-3">کد پستی</th>
+                            <th class="px-4 py-3">تعداد</th>
+                            <th class="px-4 py-3">نام محصول</th>
+                            <th class="px-4 py-3">قیمت تکی</th>
+                            <th class="px-4 py-3">قیمت کل</th>
+                            <th class="px-4 py-3">وضعیت سفارش</th>
+                            <th class="px-4 py-3">تأیید سفارش</th>
+                            <th class="px-4 py-3">مشاهده بالاسری‌ها</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                        @foreach ($orders as $order)
+                            <tr>
+                                <td class="px-4 py-2">{{ $order->id }}</td>
+                                <td class="px-4 py-2">{{ $order->user->first_name }}</td>
+                                <td class="px-4 py-2">{{ $order->user->last_name }}</td>
+                                <td class="px-4 py-2">{{ $order->user->phone_number }}</td>
+                                <td class="px-4 py-2">{{ $order->user->postal_code }}</td>
+                                <td class="px-4 py-2">{{ $order->quentity }}</td>
+                                <td class="px-4 py-2">{{ $order->product->name }}</td>
+                                <td class="px-4 py-2">{{ number_format($order->product->price) }} تومان</td>
+                                <td class="px-4 py-2">{{ number_format($order->product->price * $order->quentity) }} تومان</td>
+                                <td class="px-4 py-2">
+                                    {{ $order->status == 'in_proccess' ? 'در انتظار تایید' : 'تایید شده' }}
+                                </td>
+                                <td class="px-4 py-2">
+                                    <a href="{{ route('confirm', [$order->user_id, $order->id]) }}"
+                                       class="inline-block bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 transition">
+                                        تأیید
+                                    </a>
+                                </td>
+                                <td class="px-4 py-2">
+                                    <a href="{{ route('parent', $order->user_id) }}"
+                                       class="inline-block bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition">
+                                        مشاهده
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-@endif
+</x-app-layout>
 
-@if(session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
-
-
-
-
-  <div class="container">
-    <h4 class="mb-4">لیست سفارشات</h4>
-
-    <table class="table table-bordered text-center">
-      <thead class="table-primary">
-        <tr>
-          <th>ردیف</th>
-          <th>نام </th>
-          <th> نام خانوادگی</th>
-          <th> شماره همراه</th>
-          <th>کد پستی</th>
-          <th> تعداد</th>
-          <th>نام محصول</th>
-          <th>قیمت تکی محصول</th>
-          <th> قیمت کل فاکتور</th>
-          <th>وضعیت سفارش</th>
-          <th>تأیید سفارش</th>
-          <th> مشاهده بالاسری ها</th>
-
-        </tr>
-      </thead>
-      <tbody>
-        @foreach ($orders as $order)
-              <tr>
-          <td>{{ $order->id }}</td>
-          <td>{{ $order->user->first_name }}</td>
-          <td>{{ $order->user->last_name }}</td>
-          <td>{{ $order->user->phone_number }}</td>
-          <td>{{ $order->user->postal_code }}</td>
-          <td>{{ $order->quentity }}</td>
-          <td>{{ $order->product->name  }}</td>
-          <td>{{ $order->product->price }}</td>
-          <td>{{ $order->product->price * $order->quentity  }}</td>
-          <td>{{ $order->status == "in_proccess" ? "در انتظار تایید" : "تایید" }} </td>
-          <td>
-            <a href="{{ route("confirm",[$order->user_id,$order->id]) }}" class="btn btn-success btn-sm">تأیید سفارش</a>
-          </td>
-            <td>
-            <a href="{{ route("parent",$order->user_id) }}" class="btn btn-success btn-sm"> مشاهده بالاسری ها</a>
-          </td>
-        </tr>
-        @endforeach
-      
-        <!-- ردیف‌های بیشتر را می‌توان داینامیک اضافه کرد -->
-      </tbody>
-    </table>
-  </div>
-
-</body>
-</html>

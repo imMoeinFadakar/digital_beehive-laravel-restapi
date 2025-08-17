@@ -1,15 +1,16 @@
 <?php
 
 use Modules\User\Models\User;
+use Modules\Beehive\Models\Beehive;
+use Modules\Product\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Modules\Refferal\Models\Refferal;
 use Modules\OrderUser\Models\OrderUser;
 use App\Http\Controllers\ProfileController;
-use Modules\Beehive\Models\Beehive;
 use Modules\ProductUser\Models\ProductUser;
 use Modules\TelephoneSeller\Models\TelephoneSeller;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use Modules\OrderUser\Http\Controllers\OrderUserController;
-use Modules\Product\Models\Product;
 
 
 // all sellers 
@@ -137,7 +138,11 @@ Route::get('/test-email', function () {
     return 'Sent';
 });
 
+  Route::get("create",[RegisteredUserController::class,'create'])
+    ->name("craete");
 
+       Route::post("store",[RegisteredUserController::class,'store'])
+    ->name("store");
 
 
 require __DIR__.'/auth.php';

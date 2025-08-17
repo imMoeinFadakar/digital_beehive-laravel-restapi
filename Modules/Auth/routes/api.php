@@ -13,8 +13,9 @@ Route::prefix("v1")->group(function () {
             Route::post("/validation-email",[AuthController::class,"verifiEmail"]);
             Route::post('/forget-password',[ForgetPasswordController::class, "forgetPassword"]);
             Route::post('/reset-password',[ForgetPasswordController::class, "resetPassword"]);
-
-        Route::middleware(['auth:sanctum'])->group(function () {
+            Route::post("resend-vaerifi-email",[AuthController::class, "resendValidationCode"]);
+            
+            Route::middleware(['auth:sanctum'])->group(function () {
         
             Route::post('/logout',[AuthController::class,'logout']);
         

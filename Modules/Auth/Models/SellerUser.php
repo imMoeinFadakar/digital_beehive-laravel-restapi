@@ -9,8 +9,7 @@ use Modules\TelephoneSeller\Models\TelephoneSeller;
 class SellerUser extends Model
 {
     use HasFactory;
-
-
+    protected $table = "seller_users";
     public  $timestamps = false;
 
       public function user()
@@ -33,17 +32,23 @@ class SellerUser extends Model
 
    public function seller()
     {
-        return $this->belongsTo(TelephoneSeller::class);
+        return $this->belongsTo(TelephoneSeller::class,"telephone_seller_id");
     }
  
-
     /**
      * The attributes that are mass assignable.
      */
+  
+
     protected $fillable = [
         "user_id",
         "telephone_seller_id"
     ];
+
+    public function seller_user()
+    {
+        return $this->hasMany(SellerUser::class,"telephone_seller_id","id");
+    }
 
     public function AddNewSellerUser(array $validated): ?SellerUser
     {
