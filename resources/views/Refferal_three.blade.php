@@ -1,47 +1,49 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>درخت ارجاع</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="p-4 bg-light">
+<div class="container mx-auto px-4 py-6">
+    <h2 class="text-2xl font-semibold mb-6 text-center">درخت ارجاع تا ۴ نسل</h2>
 
-<div class="container">
-    <h2 class="mb-4">درخت ارجاع تا ۴ نسل</h2>
-
-    @if($referrals->isNotEmpty())
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover text-center align-middle">
-                <thead class="table-dark">
+    @if($referrals && count($referrals) > 0)
+        <!-- نسخه دسکتاپ -->
+        <div class="hidden md:block overflow-x-auto">
+            <table class="min-w-full text-center divide-y divide-gray-200 dark:divide-gray-700 border rounded-lg shadow-md">
+                <thead class="bg-gray-800 text-white">
                     <tr>
-                        <th>نسل</th>
-                        <th>نام</th>
-                        <th>نام خانوادگی</th>
-                        <th>ایمیل</th>
-                        <th>کد کاربری</th>
+                        <th class="px-4 py-3">نسل</th>
+                        <th class="px-4 py-3">نام</th>
+                        <th class="px-4 py-3">نام خانوادگی</th>
+                        <th class="px-4 py-3">ایمیل</th>
+                        <th class="px-4 py-3">کد کاربری</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                     @foreach($referrals as $index => $user)
-                        <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ $user->first_name }}</td>
-                            <td>{{ $user->last_name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->id }}</td>
+                        <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <td class="px-4 py-2">{{ $index + 1 }}</td>
+                            <td class="px-4 py-2">{{ $user->first_name }}</td>
+                            <td class="px-4 py-2">{{ $user->last_name }}</td>
+                            <td class="px-4 py-2 break-words">{{ $user->email }}</td>
+                            <td class="px-4 py-2">{{ $user->id }}</td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
+
+        <!-- نسخه موبایل (کارت) -->
+        <div class="md:hidden space-y-4">
+            @foreach($referrals as $index => $user)
+                <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-4 space-y-2">
+                    <div class="flex justify-between"><span class="font-semibold">نسل</span><span>{{ $index + 1 }}</span></div>
+                    <div class="flex justify-between"><span class="font-semibold">نام</span><span>{{ $user->first_name }}</span></div>
+                    <div class="flex justify-between"><span class="font-semibold">نام خانوادگی</span><span>{{ $user->last_name }}</span></div>
+                    <div class="flex justify-between"><span class="font-semibold">ایمیل</span><span class="break-words">{{ $user->email }}</span></div>
+                    <div class="flex justify-between"><span class="font-semibold">کد کاربری</span><span>{{ $user->id }}</span></div>
+                </div>
+            @endforeach
+        </div>
     @else
-        <div class="alert alert-warning text-center">
+        <div class="bg-yellow-100 text-yellow-800 p-4 rounded-lg text-center mt-4">
             هیچ ارجاعی پیدا نشد.
         </div>
     @endif
 </div>
 
-</body>
-</html>

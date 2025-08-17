@@ -5,18 +5,10 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <!-- اینجا میتونی پیام یا توضیحات بگذاری -->
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-5">
-        <div class="overflow-x-auto bg-white dark:bg-gray-800 shadow-md rounded-lg">
+
+        <!-- جدول دسکتاپ -->
+        <div class="hidden md:block overflow-x-auto bg-white dark:bg-gray-800 shadow-md rounded-lg">
             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead class="bg-gray-800 text-white">
                     <tr>
@@ -37,13 +29,13 @@
                             <td class="px-4 py-3 text-sm">{{ $user->reffered->phone_number }}</td>
                             <td class="px-4 py-3">
                                 <a href="{{ route('user.product.get', $user->reffered->id) }}"
-                                   class="inline-block bg-green-600 text-white px-3 py-1 rounded-lg hover:bg-green-700 transition">
+                                   class="inline-block bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition mr-2">
                                     وضعیت خریدها
                                 </a>
                             </td>
                             <td class="px-4 py-3">
                                 <a href="{{ route('reffrals', [$user->reffered->refferal_code, $gen + 1]) }}"
-                                   class="inline-block bg-red-600 text-white px-3 py-1 rounded-lg hover:bg-red-700 transition">
+                                   class="inline-block bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">
                                     مشاهده
                                 </a>
                             </td>
@@ -52,6 +44,29 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- کارت موبایل -->
+        <div class="md:hidden space-y-4">
+            @foreach ($userRefferals as $index => $user)
+                <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-4 space-y-2">
+                    <div class="flex justify-between"><span class="font-semibold">#</span><span>{{ $index + 1 }}</span></div>
+                    <div class="flex justify-between"><span class="font-semibold">نام</span><span>{{ $user->reffered->first_name }}</span></div>
+                    <div class="flex justify-between"><span class="font-semibold">نام خانوادگی</span><span>{{ $user->reffered->last_name }}</span></div>
+                    <div class="flex justify-between"><span class="font-semibold">شماره تماس</span><span>{{ $user->reffered->phone_number }}</span></div>
+                    <div class="flex flex-col sm:flex-row gap-2 mt-2">
+                        <a href="{{ route('user.product.get', $user->reffered->id) }}"
+                           class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 text-center transition">
+                            وضعیت خریدها
+                        </a>
+                        <a href="{{ route('reffrals', [$user->reffered->refferal_code, $gen + 1]) }}"
+                           class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 text-center transition">
+                            مشاهده
+                        </a>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
     </div>
 
     <script>
@@ -63,4 +78,5 @@
         }
     </script>
 </x-app-layout>
+
 

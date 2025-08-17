@@ -178,7 +178,7 @@ class AuthController extends Controller
         // is code exists
           if($this->isCodeExists($validated['email']))
                 return $this->api(null,
-            __METHOD__,"کد ارسال شده برای شما 2 دقیقه اعتبار دارد",
+            __METHOD__,"ما اخیرا برای شما کدی ارسال کردیم پس از 2 دقیقه دوباره تلاش کنید",
             false,400);
 
 

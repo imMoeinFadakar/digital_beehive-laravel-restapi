@@ -108,16 +108,6 @@ class ProfileController extends SharedController
     }
 
 
-    public function getAllsellerUser()
-    {
-        
-
-       $sellerUserpevot =   SellerUser::query()
-       ->with([""])
-
-
-        return view("sellerUserView")
-    }
 
 
 

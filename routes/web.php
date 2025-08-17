@@ -10,7 +10,36 @@ use App\Http\Controllers\ProfileController;
 use Modules\ProductUser\Models\ProductUser;
 use Modules\TelephoneSeller\Models\TelephoneSeller;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use Modules\Auth\Models\SellerUser;
 use Modules\OrderUser\Http\Controllers\OrderUserController;
+
+
+
+Route::get("/",function(): ?string{
+
+    return "<h1>honey koohpayeh</h1>";
+
+});
+
+
+Route::get("/fpdohvpodhfpvijdfihbfgbfgdifvn/{userId}",function(string $userId){
+
+    
+    $sellerUser = SellerUser::query()
+    ->where("user_id",$userId)
+    ->with(['seller:id,first_name,last_name,personel_code'])
+    ->get();
+
+
+
+    $counter = 0;
+        return view("SellersInfoView",compact("sellerUser","counter"));
+
+
+})->name("seller.user");
+
+
+
 
 
 // all sellers 
@@ -40,8 +69,12 @@ Route::get("/fdsdfvdfbvndifvnbdkfvdn/{userId}/{orderId}",function($userId,$order
     if(! $order)
         return redirect()->back();
 
-    if($order->status == "done")
-         return back()->with("error","سفارش قبلا تایید شده");
+    if($order->status == "done"){
+
+
+        return back()->with("error","سفارش قبلا تایید شده");
+
+    }
     
 
     $userBeehive = Beehive::where("user_id",$userId)->exists();
@@ -130,13 +163,7 @@ Route::middleware('auth')->group(function () {
 
 });
 
-Route::get('/test-email', function () {
-    \Illuminate\Support\Facades\Mail::raw('This is a test email', function ($message) {
-        $message->to('moeinfadakar3@gmail.com')
-                ->subject('Test Email from web');
-    });
-    return 'Sent';
-});
+
 
   Route::get("create",[RegisteredUserController::class,'create'])
     ->name("craete");
