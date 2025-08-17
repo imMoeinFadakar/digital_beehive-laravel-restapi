@@ -140,16 +140,12 @@ class AuthController extends Controller
     {
        $validated = $request->validated();
 
-       // find or create
-        $user = $this->getUserByEmail($validated['email'],"inactive");
-        if(! $user){
+       //  create user
             $refferalCode = $this->generateRefferalCode();
             $validated["refferal_code"] = $refferalCode;
              $user = User::create($validated);
-         }
-
-
-          $verifiEmail =  $verifiEmail->addNewVerifiEmail([
+        
+            $verifiEmail =  $verifiEmail->addNewVerifiEmail([
                 "email" => $validated["email"],
                 "code" => $this->generateRandomCode(),
                 "expire_at" => now()->addMinutes(2)
@@ -165,8 +161,6 @@ class AuthController extends Controller
                     "telephone_seller_id" => $seller->id
                 ]);
             }
-
-
 
             $user->notify(new ValidationEmailNotification($verifiEmail->code));
        
