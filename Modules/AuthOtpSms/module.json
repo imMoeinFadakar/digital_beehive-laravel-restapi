@@ -1,0 +1,11 @@
+{
+    "name": "AuthOtpSms",
+    "alias": "authotpsms",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\AuthOtpSms\\Providers\\AuthOtpSmsServiceProvider"
+    ],
+    "files": []
+}

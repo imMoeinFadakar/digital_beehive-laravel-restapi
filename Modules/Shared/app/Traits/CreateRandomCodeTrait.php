@@ -5,11 +5,6 @@ namespace Modules\Shared\Traits;
 use Nette\Utils\Random;
 use Psy\Util\Str;
 
-
-
-
-
-
 trait CreateRandomCodeTrait {
 
 

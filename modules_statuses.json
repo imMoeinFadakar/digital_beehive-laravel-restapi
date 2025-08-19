@@ -21,5 +21,10 @@
     "Task": true,
     "Otp": true,
     "Persenel": true,
-    "OrderUserStatus": true
+    "OrderUserStatus": true,
+    "SmsOtp": true,
+    "AuthOtp": true,
+    "AuthOtpSms": true,
+    "Activities": true,
+    "Beehives": true
 }
