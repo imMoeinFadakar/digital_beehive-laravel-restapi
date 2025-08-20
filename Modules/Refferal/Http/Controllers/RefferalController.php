@@ -43,11 +43,6 @@ class RefferalController extends Controller
     }
 
 
-  
-
-
- 
-
     /**
      * refferal/store
      * @param \Modules\Refferal\Http\Requests\storeNewRefferalRequest $request
@@ -69,6 +64,12 @@ class RefferalController extends Controller
 
         $refferingUser = $this->findRefferingUser(
             $validated['refferal_code']);
+        
+        if(! $refferingUser)
+            return $this->api(null,__METHOD__,
+        "کد معرف اشتباه است",false,400);
+
+
 
         if($refferingUser->id === Auth::id())
             return $this->api(null,
