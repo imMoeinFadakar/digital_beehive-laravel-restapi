@@ -66,6 +66,7 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <form action="{{  route("logout") }}" class="d-flex justify-center" method="post">
+                @csrf
                 <button class="btn bg-red-500 text-white" >خروج</button>
             </form>
         </div>

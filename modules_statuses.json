@@ -26,5 +26,6 @@
     "AuthOtp": true,
     "AuthOtpSms": true,
     "Activities": true,
-    "Beehives": true
+    "Beehives": true,
+    "SellerUser": true
 }

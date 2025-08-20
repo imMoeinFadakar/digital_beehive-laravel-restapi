@@ -22,7 +22,7 @@ class OtpAuthController extends Controller
 {
     use SendSmsTrait,ApiResponseTrait,HasApiTokens;
 
-      public function sendOtpCode(AuthOtpRequest $request,OtpAuth $otpAuth)
+      public function sendOtpCode(AuthOtpRequest $request)
     {
         $validated = $request->validated();
         
@@ -34,11 +34,35 @@ class OtpAuthController extends Controller
         "ما یک کد تایید به {$validated["phone"]} ارسال کردیم");
     }
 
+     /**
+     * auth/logout
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout(Request $request)
+    {
+       $logout =  auth()->user()->currentAccessToken()->delete();
+       if($logout) {
+
+        return $this->api(null,__METHOD__,"با موفقیت خارج شدید");
+
+       }
+       
+        return $this->api(null,
+        message: " ارور ناشناخته ایی اتفاق افتاد",
+         status: false, code: 500);
+    }
+
+
+
     public function verifiOtpCode(VerifiOtpRequest $request)
     {
         $validated = $request->validated();
 
         $otpCode = $this->findOtpCode("code",$validated['code']);
+        if(! $otpCode)
+            return $this->api(null,__METHOD__,
+        "کد معتبر یافت نشد",false,400);
 
         $user = $this->findOrCreateUser($otpCode->phone);
 
@@ -48,7 +72,6 @@ class OtpAuthController extends Controller
 
         $otpCode->delete();
 
-
         return $this->api(["token" => $token,"user" => $user],__METHOD__);
     }
 
@@ -57,12 +80,13 @@ class OtpAuthController extends Controller
     {
         $validated = $request->validated();
         $otpCode = $this->findOtpCode("phone",$validated['phone']);
-        if(! $otpCode){
-              $newCode = $this->createNewOtpCode($this->generateRandomCode(),$validated['phone']);
-            $this->sendSms($newCode->phone,$newCode->code);
-        }
-            $this->sendSms($otpCode->phone,$otpCode->code);
-          
+        if($otpCode)
+            return $this->api(null,__METHOD__,
+        "کد قبلی شما هنوز اعتبار دارد. اعتبار هر کد: 3 دقیقه",
+        false,400);
+         
+        $newCode = $this->createNewOtpCode($this->generateRandomCode(),$validated['phone']);
+        $this->sendSms($newCode->phone,$newCode->code);
 
                return $this->api(null,__METHOD__,
         "ما مجدد  یک کد تایید به {$validated["phone"]} ارسال کردیم");
@@ -143,7 +167,7 @@ class OtpAuthController extends Controller
     {
         return User::firstOrCreate(
             ["phone_number" => $phoneNumber,"status"=>"active"],
-            ["status" => "inactive",
+            ["status" => "active",
             "refferal_code" => $this->generateRefferalCode()]
         );
     }

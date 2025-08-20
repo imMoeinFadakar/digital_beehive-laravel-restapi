@@ -12,26 +12,7 @@ use Modules\TelephoneSeller\Models\TelephoneSeller;
 
 class OrderUserStatusController extends Controller
 {
-   
-    public function store(AddNewOrderUserStatus $request,OrderUserstatus $orderUserstatus)
-    {
-        $validated = $request->validated();
+  
 
-        $seller = $this->findTelephoneSeller($validated['seller_code']);
-       $sellerUser =  $orderUserstatus->addNewOrderUserStatus([
-            "telephone_seller_id" => $seller->id,
-            "user_id" => Auth::id()
-        ]);
-
-        return $this->api($seller)
-
-    }
-
-    protected function findTelephoneSeller($sellerCode)
-    {
-        return TelephoneSeller::query()
-        ->where("personel_code",$sellerCode)
-        ->first();
-    }
 
 }

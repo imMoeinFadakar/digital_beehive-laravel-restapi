@@ -15,6 +15,7 @@ use Modules\Refferal\Models\Refferal;
 use Modules\Refferal\Transformers\RefferalResource;
 use Modules\Shared\Http\Controllers\SharedController;
 use Modules\Refferal\Http\Requests\storeNewRefferalRequest;
+use Modules\SellerUser\Models\SellerUser;
 
 class RefferalController extends Controller
 {
@@ -30,10 +31,7 @@ class RefferalController extends Controller
         ->count();
 
 
-        $cardUser = $this->getAuthUserCard();
-
-        return $this->api(['refferal_quentity' => $RefferalQuentity ,
-         "cart" => $cardUser ?? "هنوز هیچ کارت فعالی ندارید" ],__METHOD__);
+        return $this->api(['refferal_quentity' => $RefferalQuentity ],__METHOD__);
     }
 
 
@@ -41,10 +39,14 @@ class RefferalController extends Controller
     {
         return CardUser::query()
         ->where("user_id",Auth::id())
-        ->with(['card'])
         ->first();
     }
 
+
+  
+
+
+ 
 
     /**
      * refferal/store
@@ -76,77 +78,41 @@ class RefferalController extends Controller
         422);    
 
 
-    try{
-        DB::beginTransaction();
+        try{
+            DB::beginTransaction();
 
+            
+        $data =  [
+            "reffered_id" => Auth::id(),
+            "reffering_id" => $refferingUser->id
+        ];
         
-       $data =  [
-        "reffered_id" => Auth::id(),
-        "reffering_id" => $refferingUser->id
-       ];
-       
+            $refferal->addNewRefferal($data);
 
-        $refferal->addNewRefferal($data);
+            DB::commit();
 
-
-       $cardUser = $this->getCardUser($refferingUser);
-
-       if(! $cardUser){
-
-        $cardUser = $this->createCardUser($refferingUser);
-
-        DB::commit();
-
-         return $this->api(null,
-        __METHOD__,
-        "دعوت موفقیت امیز بود");
-
-       }
-
-       $newCard = $this->getNewCardLevel($cardUser->card->refferal_require);
-
-       if(! $newCard){
-
-        DB::commit();
-         return $this->api(null,
-        __METHOD__,
-        "تبریک شما به اخرین سطح رسیدید");
-
-       }
+            return $this->api(null,
+            __METHOD__,
+            "دعوت موفقیت امیز بود");
 
 
-       $refferingUser->score += $newCard->score;
-       $refferingUser->save();
+        }catch(Exception $e){
 
-       $cardUser->card_id = $newCard->id;
-        $cardUser->save();
+            DB::rollBack();
 
+            return $this->api(null,
+            __METHOD__,
+            "خطای ناشناخته ایی رخ داد" . ' ' .$e->getMessage(),
+            false,500);
 
-        DB::commit();
-
-
-        return $this->api(null,
-        __METHOD__,
-        "دعوت موفقیت امیز بود");
-
-
-    }catch(Exception $e){
-
-        DB::rollBack();
-
-        return $this->api(null,
-        __METHOD__,
-        "خطای ناشناخته ایی رخ داد" . ' ' .$e->getMessage(),
-        false,500);
-
-    }
+        }
 
 
 
         
 
-
     }
+    
 
 
     protected function getCardUser($refferingUser): ?CardUser

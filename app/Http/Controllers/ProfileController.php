@@ -2,32 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AddNewReportRequest;
 use Exception;
 use Modules\User\Models\User;
 use Illuminate\Support\Facades\DB;
-use Modules\Auth\Models\SellerUser;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Modules\OrderUserStatus\Models\OrderUserstatus;
 use Modules\Refferal\Models\Refferal;
+use App\Http\Requests\AddNewReportRequest;
+use Modules\OrderUserStatus\Models\OrderUserstatus;
 use Modules\Shared\Http\Controllers\SharedController;
+use Modules\SellerUser\Models\SellerUser ;
 
-class ProfileController extends SharedController
+class ProfileController extends Controller
 {
-
+    
      
     public function index()
     {
         $sellerUser = $this->getSellerUserCostumers();
 
-        // dd($sellerUser->toArray());
-
-
         $sellerRefferalCode = env("APP_FRONTEND_URL") ."/login?code=" . auth()->user()->personel_code; 
 
         $gen = 0;
-
-
 
         return view("dashboard",compact("sellerUser",["sellerRefferalCode","gen"]));
 

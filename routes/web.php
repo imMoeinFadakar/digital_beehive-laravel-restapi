@@ -10,10 +10,8 @@ use App\Http\Controllers\ProfileController;
 use Modules\ProductUser\Models\ProductUser;
 use Modules\TelephoneSeller\Models\TelephoneSeller;
 use App\Http\Controllers\Auth\RegisteredUserController;
-use Modules\Auth\Models\SellerUser;
 use Modules\OrderUser\Http\Controllers\OrderUserController;
-
-
+use Modules\SellerUser\Models\SellerUser;
 
 Route::get("/",function(): ?string{
 

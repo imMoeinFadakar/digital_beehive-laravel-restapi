@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\OrderUserStatus\Providers;
+namespace  Modules\OrderUserStatus\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 

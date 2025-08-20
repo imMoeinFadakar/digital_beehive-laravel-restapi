@@ -13,7 +13,8 @@ Route::prefix('v1')->group(function () {
         Route::post("/send",[OtpAuthController::class, "sendOtpCode"]);
         Route::post("/verify",[OtpAuthController::class,"verifiOtpCode"]);
         Route::post("/resend",[OtpAuthController::class,"resendOtpCode"]);
-
+        Route::middleware(['auth:sanctum'])
+        ->post("/logout",[OtpAuthController::class,"logout"]);
 
 
     });
